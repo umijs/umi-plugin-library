@@ -1,0 +1,14 @@
+{
+  "plugins": ["@babel/plugin-transform-runtime", ["@babel/plugin-proposal-decorators", { "legacy": true }], ["@babel/plugin-proposal-class-properties", { "loose" : true }]],
+  "presets": [
+    ["@babel/env", {
+      "targets": {
+        "browsers": ["last 2 versions", "IE 10"]
+      }
+    }],
+    [
+      "@babel/react"
+    ]
+  ],
+  "exclude": "node_modules/**"
+}

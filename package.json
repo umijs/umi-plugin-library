@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-alpha.3",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -32,5 +32,13 @@
   },
   "files": [
     "/lib"
-  ]
+  ],
+  "dependencies": {
+    "docz": "^0.12.15",
+    "docz-plugin-css": "^0.11.0",
+    "docz-theme-antd": "^1.0.0-beta.1",
+    "facepaint": "^1.2.1",
+    "react-adopt": "^0.6.0",
+    "webpack-merge": "^4.1.4"
+  }
 }
