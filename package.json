@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-beta.5",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -13,7 +13,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "tslint -p tsconfig.json --fix",
+      "git add"
+    ]
+  },
+  "files": [
+    "/lib"
+  ],
+  "dependencies": {
+    "docz": "^0.12.15",
+    "docz-plugin-css": "^0.11.0",
+    "docz-theme-antd": "^1.0.0-beta.1",
     "@babel/cli": "^7.2.0",
     "@types/node": "^10.12.11",
     "babel-merge": "^2.0.1",
@@ -33,20 +46,5 @@
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1",
     "webpack-merge": "^4.1.4"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "prettier --write",
-      "tslint -p tsconfig.json --fix",
-      "git add"
-    ]
-  },
-  "files": [
-    "/lib"
-  ],
-  "dependencies": {
-    "docz": "^0.12.15",
-    "docz-plugin-css": "^0.11.0",
-    "docz-theme-antd": "^1.0.0-beta.1"
   }
 }
