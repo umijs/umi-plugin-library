@@ -1,10 +1,13 @@
 import fs from 'fs';
-import path, {join} from 'path';
-import { IApi } from "..";
+import path, { join } from 'path';
+import { IApi } from '..';
 
 type filename = 'afWebpack' | 'webpack';
 export interface IAfWebpackConfig {
-  babel: object;
+  babel: {
+    plugins: any[];
+    presets: any[];
+  };
 }
 export interface IWebpackConfig {
   resolve: object;

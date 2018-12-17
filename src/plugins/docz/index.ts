@@ -1,17 +1,17 @@
 import { fork } from 'child_process';
-import path, {join} from 'path';
-import { IOpts } from '../..';
+import path, { join } from 'path';
 
 export default class {
   public doczPath: string;
   public rcPath: string;
 
-  constructor(){
+  constructor() {
     this.doczPath = path.resolve(require.resolve('docz'), '../../bin/index.js');
     this.rcPath = join(__dirname, 'doczrc.js');
   }
 
-  public dev({ theme, wrapper, typescript }: IOpts) {
+  public dev(opts: any = {}) {
+    const { theme, wrapper, typescript } = opts;
     const child = fork(this.doczPath, [
       'dev',
       '--config',
@@ -20,7 +20,7 @@ export default class {
       '8001',
       ...(typescript ? ['--typescript'] : []),
       ...(theme ? ['--theme', theme] : []),
-      ...(wrapper ? ['--theme', wrapper] : [])
+      ...(wrapper ? ['--wrapper', wrapper] : []),
     ]);
 
     child.on('exit', (code: number) => {
@@ -30,6 +30,5 @@ export default class {
 
   public build() {
     // const hello = 1;
-
   }
 }
