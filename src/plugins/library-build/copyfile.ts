@@ -6,8 +6,8 @@ export default class {
   private cwd: string;
   private baseFolder: string;
 
-  constructor(baseFolder) {
-    this.cwd = process.cwd();
+  constructor(baseFolder: string, cwd: string) {
+    this.cwd = cwd;
     this.baseFolder = baseFolder;
   }
 

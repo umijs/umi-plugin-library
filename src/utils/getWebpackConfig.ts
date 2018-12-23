@@ -10,7 +10,11 @@ export interface IAfWebpackConfig {
   };
 }
 export interface IWebpackConfig {
-  resolve: object;
+  resolve: {
+    alias: {
+      [prop: string]: string;
+    };
+  };
 }
 export interface IConfig {
   afWebpack: IAfWebpackConfig;

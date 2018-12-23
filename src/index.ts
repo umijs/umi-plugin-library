@@ -1,6 +1,4 @@
-import Dev from './commands/dev';
-import Build from './commands/build';
-import { getWebpackConfig } from './utils/getWebpackConfig';
+import { getWebpackConfig } from './utils';
 
 type Params = 'build' | 'dev';
 export interface IArgs {
@@ -20,9 +18,28 @@ export interface IOpts {
   theme: string;
   wrapper: string;
   typescript: string;
+  plugins: any[];
 }
 
-export default function(api: IApi, opts: IOpts) {
+function loadPlugins(plugins, api, opts, args) {
+  try {
+    plugins.forEach(item => {
+      if (typeof item === 'string') {
+        item = [item];
+      }
+      const [name, options] = item;
+      opts = {
+        ...opts,
+        ...options,
+      };
+      require(name).default(api, opts, args);
+    });
+  } catch (error) {
+    api.debug(error);
+  }
+}
+
+export default function(api: IApi, opts: any = {}) {
   api.registerCommand(
     'library',
     {
@@ -30,15 +47,15 @@ export default function(api: IApi, opts: IOpts) {
       webpack: true,
     },
     args => {
-      const subCommand = args._[0];
-      // 获取 api
+      // 获取 config
       getWebpackConfig(api);
-
-      if (subCommand === 'dev') {
-        Dev(opts);
-      } else if (subCommand === 'build') {
-        Build();
-      }
+      // 加载插件
+      const plugins = [
+        ...(opts.plugins ? opts.plugins : []),
+        './plugins/docz',
+        ['./plugins/library-build', {}],
+      ];
+      loadPlugins(plugins, api, opts, args);
     }
   );
 }
