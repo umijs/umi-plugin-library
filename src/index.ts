@@ -24,23 +24,18 @@ export interface IOpts {
 function loadPlugins(plugins, api, opts, args) {
   try {
     plugins.forEach(item => {
-      let name: string;
-      if (Array.isArray(item)) {
-        let options;
-        [name, options] = item;
-        opts = {
-          ...opts,
-          ...options,
-        };
-      } else {
-        name = item;
+      if (typeof item === 'string') {
+        item = [item];
       }
+      const [name, options] = item;
+      opts = {
+        ...opts,
+        ...options,
+      };
       require(name).default(api, opts, args);
     });
-    // tslint:disable-next-line
   } catch (error) {
-    // tslint:disable-next-line
-    console.log(error);
+    api.debug(error);
   }
 }
 

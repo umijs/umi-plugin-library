@@ -26,8 +26,7 @@ class LibraryBuild {
   public async build() {
     try {
       this.beforeBuild();
-      this.buildUmd();
-      await Promise.all([this.buildEs5(), this.buildEs6()]);
+      await Promise.all([this.buildEs5(), this.buildEs6(), this.buildUmd()]);
       await new Copyfile(this.baseFolder, this.cwd).run();
       this.aferBuild();
     } catch (error) {
@@ -42,6 +41,9 @@ class LibraryBuild {
     }
     if (!fs.existsSync(baseFolder)) {
       baseFolder = join(this.cwd, 'components');
+    }
+    if (!fs.existsSync(baseFolder)) {
+      baseFolder = join(this.cwd, 'component');
     }
     if (!fs.existsSync(baseFolder)) {
       throw new Error('components folder not found!');
@@ -95,32 +97,36 @@ class LibraryBuild {
   }
 
   private buildUmd() {
-    const { debug, webpackConfig: config } = this.api;
-    const webpackConfig = {
-      ...config,
-      externals: {
-        react: 'window.React',
-        'react-dom': 'window.ReactDOM',
-        ...config.externals,
-      },
-      entry: join(this.baseFolder, 'index'),
-      output: {
-        path: join(this.cwd, './umd'),
-        filename: '[name].js',
-        library: camelcase(this.api.pkg.name),
-        libraryTarget: 'umd',
-        umdNamedDefine: true,
-      },
-    };
-    build({
-      cwd: this.cwd,
-      webpackConfig,
-      onSuccess() {
-        // debug(stats);
-      },
-      onFail({ err }) {
-        debug(err);
-      },
+    return new Promise(resolve => {
+      const { debug, webpackConfig: config } = this.api;
+      const webpackConfig = {
+        ...config,
+        externals: {
+          react: 'window.React',
+          'react-dom': 'window.ReactDOM',
+          ...config.externals,
+        },
+        entry: join(this.baseFolder, 'index'),
+        output: {
+          path: join(this.cwd, './umd'),
+          filename: '[name].js',
+          library: camelcase(this.api.pkg.name),
+          libraryTarget: 'umd',
+          umdNamedDefine: true,
+        },
+      };
+      build({
+        cwd: this.cwd,
+        webpackConfig,
+        onSuccess() {
+          // debug(stats);
+          resolve();
+        },
+        onFail({ err }) {
+          debug(err);
+          resolve();
+        },
+      });
     });
   }
 
