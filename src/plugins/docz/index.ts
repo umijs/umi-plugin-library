@@ -1,7 +1,7 @@
 import { fork } from 'child_process';
 import path, { join } from 'path';
 
-export default class {
+class Docz {
   public doczPath: string;
   public rcPath: string;
 
@@ -23,12 +23,26 @@ export default class {
       ...(wrapper ? ['--wrapper', wrapper] : []),
     ]);
 
+    this.onEvent(child);
+  }
+
+  public build() {
+    const child = fork(this.doczPath, ['build', '--config', this.rcPath, 'base', '.']);
+
+    this.onEvent(child);
+  }
+
+  private onEvent(child) {
     child.on('exit', (code: number) => {
       process.exit(code);
     });
   }
-
-  public build() {
-    // const hello = 1;
-  }
 }
+
+export default (_, opts, args) => {
+  const subCommand = args._[0];
+  if (subCommand === 'dev') {
+    const docz = new Docz();
+    docz.dev(opts);
+  }
+};
