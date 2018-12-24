@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.13",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -35,7 +35,7 @@
     "camelcase": "^5.0.0",
     "create-index": "^2.3.0",
     "debug": "^4.1.0",
-    "docz": "^0.12.15",
+    "docz": "^0.13.4",
     "docz-plugin-css": "^0.11.0",
     "docz-theme-antd": "^1.0.0-beta.1",
     "fs-extra": "^7.0.1",

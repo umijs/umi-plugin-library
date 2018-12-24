@@ -11,7 +11,7 @@ class Docz {
   }
 
   public dev(opts: any = {}) {
-    const { theme, wrapper, typescript } = opts;
+    const { theme, wrapper, typescript, indexHtml } = opts;
     const child = fork(this.doczPath, [
       'dev',
       '--config',
@@ -20,7 +20,10 @@ class Docz {
       '8001',
       ...(typescript ? ['--typescript'] : []),
       ...(theme ? ['--theme', theme] : []),
-      ...(wrapper ? ['--wrapper', wrapper] : []),
+      '--wrapper',
+      ...(wrapper ? [wrapper] : []), // workaround: https://github.com/pedronauck/docz/issues/551
+      '--indexHtml',
+      ...(indexHtml ? [indexHtml] : []),
     ]);
 
     this.onEvent(child);
