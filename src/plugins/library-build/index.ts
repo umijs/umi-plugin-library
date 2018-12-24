@@ -25,7 +25,7 @@ class LibraryBuild {
 
   public async build() {
     try {
-      this.beforeBuild();
+      await this.beforeBuild();
       await Promise.all([this.buildEs5(), this.buildEs6(), this.buildUmd()]);
       await new Copyfile(this.baseFolder, this.cwd).run();
       this.aferBuild();
@@ -51,15 +51,22 @@ class LibraryBuild {
     return baseFolder;
   }
 
-  private beforeBuild() {
-    const rimraf = resolveBin('rimraf');
-    fork(rimraf, ['./umd']);
-    fork(rimraf, ['./lib']);
-    fork(rimraf, ['./es']);
-    if (!this.hasIndex) {
-      const createIndex = resolveBin('create-index');
-      fork(createIndex, [this.baseFolder]);
-    }
+  private async beforeBuild() {
+    return new Promise(resolve => {
+      const rimraf = resolveBin('rimraf');
+      fork(rimraf, ['./umd']);
+      fork(rimraf, ['./lib']);
+      fork(rimraf, ['./es']);
+      if (!this.hasIndex) {
+        const createIndex = resolveBin('create-index');
+        const child = fork(createIndex, [this.baseFolder]);
+        child.on('exit', () => {
+          resolve();
+        });
+      } else {
+        resolve();
+      }
+    });
   }
 
   private buildEs5() {
