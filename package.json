@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --npm-client=tnpm",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged"
   },
@@ -17,6 +17,10 @@
       "git add"
     ]
   },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
   "devDependencies": {
     "lerna": "^3.8.0",
     "@types/node": "^10.12.11",

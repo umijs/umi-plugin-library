@@ -1,0 +1,10 @@
+{
+  "name": "only-docz",
+  "scripts": {
+    "start": "umi dev"
+  },
+  "dependencies": {
+    "docz-theme-default": "^0.13.7",
+    "umi-plugin-docz": "file:../../packages/umi-plugin-docz"
+  }
+}
