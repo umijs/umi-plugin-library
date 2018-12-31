@@ -1,0 +1,10 @@
+{
+  "name": "test-library",
+  "scripts": {
+    "start": "umi dev"
+  },
+  "dependencies": {
+    "docz-theme-default": "^0.13.7",
+    "umi-plugin-library": "file:../../packages/umi-plugin-library"
+  }
+}

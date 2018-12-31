@@ -1,5 +1,5 @@
 /**
- * config file, do not use ts
+ * docz config file, do not use ts
  */
 import { css } from 'docz-plugin-css';
 import merge from 'webpack-merge';
@@ -11,7 +11,7 @@ function readFile(name) {
   return JSON.parse(config);
 }
 
-// 动态的获取运行时配置并启动, 这样 umi 与 docz 的环境能最大兼容
+// use umi runtime webpack config
 export default {
   modifyBabelRc: (babelrc) => {
     const { babel } = readFile('afWebpack');

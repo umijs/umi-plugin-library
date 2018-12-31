@@ -6,12 +6,15 @@
   "module": "dist/index.esm.js",
   "scripts": {
     "dev": "NODE_ENV=development rollup -c -w",
-    "build": "NODE_ENV=development rollup -c",
+    "build": "NODE_ENV=production rollup -c",
     "prepublishOnly": "rm -rf ./dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "clock157",
+    "email": "clock157@163.com"
+  },
   "license": "ISC",
   "files": [
     "/dist"

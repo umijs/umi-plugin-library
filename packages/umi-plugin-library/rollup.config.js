@@ -2,7 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from 'rollup-plugin-json';
 import typescript from 'rollup-plugin-typescript2';
-import copy from 'rollup-plugin-copy';
+import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import pkg from './package.json'
 
 const env = process.env.NODE_ENV;
@@ -21,16 +21,18 @@ const config = {
     ],
     plugins: [
       json(),
-      nodeResolve(),
-      commonjs(),
+      nodeResolve({
+        preferBuiltins: true
+      }),
+      commonjs({
+        include: 'node_modules/**'
+      }),
+      // autoNamedExports(),
       typescript({
         clean: env === 'production'
       }),
-      copy({
-        "src/doczrc.js": "dist/doczrc.js"
-      })
     ],
-    external: Object.keys(pkg.dependencies).concat([ 'path', 'fs', 'child_process'])
+    external: Object.keys(pkg.dependencies).concat([ 'path'])
 }
 
 export default config;

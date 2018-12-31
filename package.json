@@ -8,7 +8,10 @@
     "precommit": "lint-staged"
   },
   "keywords": [],
-  "author": "clock157 (clock157@163.com)",
+  "author": {
+    "name": "clock157",
+    "email": "clock157@163.com"
+  },
   "license": "ISC",
   "lint-staged": {
     "*.ts": [

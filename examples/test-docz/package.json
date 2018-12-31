@@ -1,5 +1,5 @@
 {
-  "name": "only-docz",
+  "name": "test-docz",
   "scripts": {
     "start": "umi dev"
   },
