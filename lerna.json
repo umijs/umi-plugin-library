@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "independent",
+  "npm-client": "tnpm"
+}

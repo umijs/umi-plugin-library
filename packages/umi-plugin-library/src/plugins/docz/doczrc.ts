@@ -1,4 +1,4 @@
-import { css } from "docz-plugin-css";
+import { css } from 'docz-plugin-css';
 import merge from 'webpack-merge';
 import { loadWebpackConfig } from '../../utils/getWebpackConfig';
 
@@ -6,21 +6,20 @@ import { loadWebpackConfig } from '../../utils/getWebpackConfig';
 export default {
   modifyBabelRc: (babelrc: object) => {
     const { babel } = loadWebpackConfig('afWebpack');
-    return merge(babelrc, babel)
-
+    return merge(babelrc, babel);
   },
   modifyBundlerConfig: (config: object) => {
     const { resolve } = loadWebpackConfig('webpack');
-    return merge({resolve}, config);
+    return merge({ resolve }, config);
   },
   plugins: [
     css({
       cssmodules: true,
       loaderOpts: {
-          javascriptEnabled: true,
+        javascriptEnabled: true,
       },
-      preprocessor: "less",
+      preprocessor: 'less',
     }),
     css({ preprocessor: 'postcss' }),
-  ]
+  ],
 };
