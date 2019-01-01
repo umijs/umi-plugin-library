@@ -1,7 +1,7 @@
 import { fork, ChildProcess } from 'child_process';
 import { getWebpackConfig } from './utils';
 import { sync as resolveBin } from 'resolve-bin';
-import ghpages from 'ghpages';
+import ghpages from 'gh-pages';
 import * as path from 'path';
 
 export interface IOpts {
