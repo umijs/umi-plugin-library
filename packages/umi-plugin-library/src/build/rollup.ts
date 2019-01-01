@@ -90,12 +90,13 @@ export default class Rollup {
           exclude: 'node_modules/**',
         }),
         json(),
-        resolve(),
+        resolve({
+          browser: true,
+        }),
         commonjs({
           include: 'node_modules/**',
           namedExports: {
             // autoNamedExports not supported module.
-            'node_modules/react-is/index.js': ['ForwardRef', 'isElement', 'isValidElementType'],
             ...namedExports,
           },
         }),
