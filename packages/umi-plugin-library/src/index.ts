@@ -1,7 +1,7 @@
 import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
 import Build from './build';
 
-type Params = 'build' | 'dev';
+type Params = 'build' | 'dev' | 'deploy';
 export interface IArgs {
   _: {
     length: number;
@@ -61,6 +61,8 @@ export interface IBundleOptions {
 }
 
 export default function(api: IApi, opts: IOpts = {}) {
+  // register docz plugin
+  doczPlugin(api, opts.doc);
   api.registerCommand(
     'lib',
     {
@@ -68,8 +70,6 @@ export default function(api: IApi, opts: IOpts = {}) {
       webpack: true,
     },
     args => {
-      // docz
-      doczPlugin(api, opts.doc);
       // build
       Build(api, opts, args);
     }

@@ -24,6 +24,7 @@
     "docz": "^0.13.4",
     "docz-plugin-css": "^0.11.0",
     "docz-theme-antd": "^1.0.0-alpha.2",
+    "ghpages": "^0.0.10",
     "resolve-bin": "^0.4.0",
     "webpack-merge": "^4.1.5"
   },

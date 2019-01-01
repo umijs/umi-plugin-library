@@ -119,7 +119,7 @@ export default class Rollup {
         ? [
             {
               format: 'cjs',
-              file: pkg.main || 'dst/index.js',
+              file: pkg.main || 'dist/index.js',
             },
           ]
         : []),
@@ -127,7 +127,7 @@ export default class Rollup {
         ? [
             {
               format: 'esm',
-              file: pkg.module || 'dst/index.esm.js',
+              file: pkg.module || 'dist/index.esm.js',
             },
           ]
         : []),
@@ -135,7 +135,7 @@ export default class Rollup {
         ? [
             {
               format: 'umd',
-              file: pkg.unpkg || 'dst/index.umd.js',
+              file: pkg.unpkg || 'dist/index.umd.js',
               globals: umd && umd.globals,
               name: (umd && umd.name) || camelCase(pkg.name),
             },

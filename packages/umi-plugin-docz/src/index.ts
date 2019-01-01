@@ -1,6 +1,7 @@
 import { fork, ChildProcess } from 'child_process';
 import { getWebpackConfig } from './utils';
 import { sync as resolveBin } from 'resolve-bin';
+import ghpages from 'ghpages';
 import * as path from 'path';
 
 export interface IOpts {
@@ -10,7 +11,7 @@ export interface IOpts {
   indexHtml?: string;
 }
 
-type Params = 'build' | 'dev';
+type Params = 'build' | 'dev' | 'deploy';
 export interface IArgs {
   _: {
     length: number;
@@ -27,12 +28,14 @@ export interface IApi {
 }
 
 class Docz {
-  public doczPath: string;
-  public rcPath: string;
+  private doczPath: string;
+  private rcPath: string;
+  private distDir: string;
 
-  constructor() {
+  constructor(api: IApi) {
     this.doczPath = resolveBin('docz', { executable: 'docz' });
     this.rcPath = path.join(__dirname, 'doczrc.js');
+    this.distDir = path.join(api.cwd, '.docz/dist');
   }
 
   public dev(opts: IOpts = {}) {
@@ -52,9 +55,17 @@ class Docz {
     this.onEvent(child);
   }
 
-  public build() {
+  public deploy() {
     const child = fork(this.doczPath, ['build', '--config', this.rcPath, 'base', '.']);
-    this.onEvent(child);
+    child.on('exit', (code: number) => {
+      if (code === 0) {
+        ghpages.publish(this.distDir, () => {
+          // tslint:disable-next-line
+          console.log('publish done');
+        });
+      }
+    });
+    // this.onEvent(child);
   }
 
   private onEvent(child: ChildProcess) {
@@ -75,11 +86,11 @@ export default function(api: IApi, opts: IOpts = {}) {
       getWebpackConfig(api);
       const subCommand = args._[0];
       if (subCommand === 'dev') {
-        const docz = new Docz();
+        const docz = new Docz(api);
         docz.dev(opts);
-      } else if (subCommand === 'build') {
-        const docz = new Docz();
-        docz.build();
+      } else if (subCommand === 'deploy') {
+        const docz = new Docz(api);
+        docz.deploy();
       }
     }
   );
