@@ -1,16 +1,19 @@
 import Rollup from './rollup';
+import Babel from './babel';
 import { IApi, IBundleOptions, IArgs } from '..';
 
 class Bundler {
-  private bundler: Rollup;
+  private bundlerRollup: Rollup;
+  private bundlerBabel: Babel;
 
   constructor(api: IApi, opts: IBundleOptions) {
-    this.bundler = new Rollup(api, opts);
-    // todo use babel
+    this.bundlerRollup = new Rollup(api, opts);
+    this.bundlerBabel = new Babel(api, opts);
   }
 
   public async build() {
-    this.bundler.build();
+    this.bundlerRollup.build();
+    this.bundlerBabel.build();
   }
 }
 

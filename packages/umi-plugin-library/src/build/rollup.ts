@@ -49,6 +49,8 @@ export default class Rollup {
         console.log(error);
         this.api.debug(error);
       }
+      // tslint:disable-next-line
+      console.log(`rollup build ${item.format} done`);
     });
   }
 
@@ -113,7 +115,7 @@ export default class Rollup {
     };
 
     this.outpuOptions = [
-      ...(cjs !== false
+      ...(cjs !== false && !(cjs && cjs.type === 'babel')
         ? [
             {
               format: 'cjs',
@@ -121,7 +123,7 @@ export default class Rollup {
             },
           ]
         : []),
-      ...(esm !== false
+      ...(esm !== false && !(esm && esm.type === 'babel')
         ? [
             {
               format: 'esm',
