@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-docz",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -23,7 +23,7 @@
     "debug": "^4.1.0",
     "docz": "^0.13.4",
     "docz-plugin-css": "^0.11.0",
-    "docz-theme-antd": "^1.0.0-alpha.0",
+    "docz-theme-antd": "^1.0.0-alpha.1",
     "resolve-bin": "^0.4.0",
     "webpack-merge": "^4.1.5"
   },
