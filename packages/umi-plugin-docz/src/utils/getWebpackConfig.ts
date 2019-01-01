@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path, { join } from 'path';
+import * as fs from 'fs';
+import { join, resolve } from 'path';
 import { IApi } from '..';
 
 type filename = 'afWebpack' | 'webpack';
@@ -22,7 +22,7 @@ export interface IConfig {
 }
 
 function writeFile(name: filename, data: any) {
-  const configPath = path.resolve(__dirname, `${name}.json`);
+  const configPath = resolve(__dirname, `${name}.json`);
   fs.writeFileSync(configPath, JSON.stringify(data));
 }
 

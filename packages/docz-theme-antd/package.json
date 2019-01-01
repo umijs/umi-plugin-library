@@ -1,6 +1,6 @@
 {
   "name": "docz-theme-antd",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-alpha.1",
   "description": "docz theme with antd",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -22,7 +22,6 @@
     "ant-design-pro": "^2.1.1",
     "antd": "^3.11.2",
     "bizcharts": "^3.4.1",
-    "docz-theme-antd": "^1.0.0-beta.1",
     "lodash": "^4.17.11",
     "rc-drawer-menu": "^1.1.0",
     "rc-queue-anim": "^1.6.8",
