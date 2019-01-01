@@ -2,7 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from 'rollup-plugin-json';
 import typescript from 'rollup-plugin-typescript2';
-import autoNamedExports from 'rollup-plugin-auto-named-exports';
+import copy from 'rollup-plugin-cpy';
 import pkg from './package.json'
 
 const env = process.env.NODE_ENV;
@@ -27,12 +27,15 @@ const config = {
       commonjs({
         include: 'node_modules/**'
       }),
-      // autoNamedExports(),
       typescript({
         clean: env === 'production'
       }),
+      copy({
+        files: ['src/build/babel/*.js'],
+        dest: 'dist',
+      })
     ],
-    external: Object.keys(pkg.dependencies).concat([ 'path'])
+    external: Object.keys(pkg.dependencies).concat([ 'path' ])
 }
 
 export default config;

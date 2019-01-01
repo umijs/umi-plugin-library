@@ -10,3 +10,5 @@ declare module 'babel-preset-umi';
 declare module 'autoprefixer';
 declare module 'rollup-plugin-peer-deps-external';
 declare module 'camelcase';
+declare module 'fs-extra';
+declare module 'glob';
