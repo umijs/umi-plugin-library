@@ -1,6 +1,6 @@
 # umi-plugin-library
 
-out of box compomnt develop plugin for umi. 
+out of box component develop plugin for umi. 
 document based on docz, and bundle based on babel and rollup.
 
 ## install
