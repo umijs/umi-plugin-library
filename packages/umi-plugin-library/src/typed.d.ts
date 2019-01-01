@@ -9,3 +9,4 @@ declare module 'less-plugin-npm-import';
 declare module 'babel-preset-umi';
 declare module 'autoprefixer';
 declare module 'rollup-plugin-peer-deps-external';
+declare module 'camelcase';

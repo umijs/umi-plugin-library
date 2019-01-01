@@ -1,4 +1,4 @@
-import doczPlugin from 'umi-plugin-docz';
+import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
 import Build from './build';
 
 type Params = 'build' | 'dev';
@@ -15,6 +15,7 @@ export interface IApi {
   webpackConfig: object;
   debug: (msg: any) => void;
   pkg: {
+    name: string;
     main?: string;
     module?: string;
     unpkg?: string;
@@ -24,15 +25,8 @@ export interface IApi {
   };
 }
 
-export type plugin = string | [string, IOpts?];
-
 export interface IOpts extends IBundleOptions {
-  doc?: {
-    theme: string;
-    wrapper: string;
-    typescript: string;
-    plugins: plugin[];
-  };
+  doc?: IDocOpts;
 }
 
 export type BabelOpt = string | [string, any?];
@@ -74,8 +68,9 @@ export default function(api: IApi, opts: IOpts = {}) {
       webpack: true,
     },
     args => {
-      // 获取 config
+      // docz
       doczPlugin(api, opts.doc);
+      // build
       Build(api, opts, args);
     }
   );
