@@ -12,3 +12,4 @@ declare module 'rollup-plugin-peer-deps-external';
 declare module 'camelcase';
 declare module 'fs-extra';
 declare module 'glob';
+declare module 'rimraf';
