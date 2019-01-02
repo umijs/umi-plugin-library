@@ -88,7 +88,16 @@ export default class Rollup {
         babel({
           runtimeHelpers: true,
           presets: [...extraBabelPresets, require.resolve('@babel/preset-react')],
-          plugins: [...extraBabelPlugins, ...umiBabel().plugins],
+          plugins: [
+            ...extraBabelPlugins,
+            ...umiBabel().plugins,
+            [
+              require.resolve('babel-plugin-inline-import-data-uri'),
+              {
+                extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
+              },
+            ],
+          ],
           exclude: 'node_modules/**',
         }),
         json(),

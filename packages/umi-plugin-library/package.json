@@ -26,6 +26,7 @@
     "autoprefixer": "^9.4.3",
     "babel-merge": "^2.0.1",
     "babel-plugin-css-modules-transform": "^1.6.2",
+    "babel-plugin-inline-import-data-uri": "^1.0.1",
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-umi": "^1.2.1",
     "camelcase": "^5.0.0",
