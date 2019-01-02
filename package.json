@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "bootstrap": "lerna bootstrap --npm-client=tnpm",
+    "bootstrap": "lerna bootstrap",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged"
   },
