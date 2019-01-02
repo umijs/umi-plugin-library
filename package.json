@@ -1,18 +1,10 @@
 {
   "private": true,
-  "version": "1.0.0",
-  "description": "",
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged"
   },
-  "keywords": [],
-  "author": {
-    "name": "clock157",
-    "email": "clock157@163.com"
-  },
-  "license": "ISC",
   "lint-staged": {
     "*.ts": [
       "prettier --write",
@@ -20,10 +12,6 @@
       "git add"
     ]
   },
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
   "devDependencies": {
     "lerna": "^3.8.0",
     "@types/node": "^10.12.11",
