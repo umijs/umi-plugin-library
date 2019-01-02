@@ -65,5 +65,8 @@ export interface IBundleOptions {
 ### run a dev server
 `umi doc dev`
 
+### deploy doc site to `yourname.github.io/repo`
+`umi doc deploy`
+
 ### bundle
 `umi lib build`
