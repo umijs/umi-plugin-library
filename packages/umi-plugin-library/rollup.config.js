@@ -35,7 +35,7 @@ const config = {
         dest: 'dist',
       })
     ],
-    external: Object.keys(pkg.dependencies).concat([ 'path' ])
+    external: Object.keys(pkg.dependencies).concat([ 'path', 'child_process' ])
 }
 
 export default config;

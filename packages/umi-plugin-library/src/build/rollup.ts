@@ -44,13 +44,12 @@ export default class Rollup {
           }),
         });
         await bundler.write(item);
+        // tslint:disable-next-line
+        console.log(`rollup build ${item.format} done`);
       } catch (error) {
         // tslint:disable-next-line
-        console.log(error);
-        this.api.debug(error);
+        console.error('bundle error', error);
       }
-      // tslint:disable-next-line
-      console.log(`rollup build ${item.format} done`);
     });
   }
 
