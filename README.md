@@ -1,17 +1,19 @@
 # umi-plugin-library
 
-out of box component develop plugin for umi. 
+Library develop plugin for umi. 
 document based on docz, and bundle based on babel and rollup.
 
-## install
+## Install
 
-`tnpm install umi-plguin-library`
+```bash
+$ yarn add umi-plguin-library
+```
 
-## config
+## Config
 
-`.umirc.js`
+Config in `.umirc.js`.
 
-```javascript
+```js
 export default {
   plugins: [
     ['umi-plugin-library', {
@@ -32,9 +34,9 @@ export default {
     }]
   ]
 }
-
 ```
-## options
+
+## Options
 
 ```typescript
 export interface IBundleOptions {
@@ -60,13 +62,16 @@ export interface IBundleOptions {
 }
 ```
 
-## usage
+## Usage
 
 ### run a dev server
+
 `umi doc dev`
 
 ### deploy doc site to `yourname.github.io/repo`
+
 `umi doc deploy`
 
 ### bundle
+
 `umi lib build`
