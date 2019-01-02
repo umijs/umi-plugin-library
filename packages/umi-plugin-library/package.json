@@ -48,6 +48,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.3",
+    "rollup-plugin-terser": "^4.0.0",
     "rollup-plugin-typescript2": "^0.18.1",
     "styled-components": "^4.1.3",
     "umi-plugin-docz": "^1.0.0-alpha.5",

@@ -13,3 +13,4 @@ declare module 'camelcase';
 declare module 'fs-extra';
 declare module 'glob';
 declare module 'rimraf';
+declare module 'rollup-plugin-terser';
