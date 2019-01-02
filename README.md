@@ -1,7 +1,6 @@
 # umi-plugin-library
 
-Library develop plugin for umi. 
-document based on docz, and bundle based on babel and rollup.
+Library development plugin for umi. The documentation is based on [docz](https://github.com/pedronauck/docz), and bundle is based on babel & [rollup](http://rollupjs.org/).
 
 ## Install
 
