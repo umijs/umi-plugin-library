@@ -38,25 +38,30 @@ class Docz {
     this.distDir = path.join(api.cwd, '.docz/dist');
   }
 
-  public dev(opts: IOpts = {}) {
-    const { theme, wrapper, typescript, indexHtml } = opts;
+  public dev(opts: IOpts) {
+    const comnonOpts = this.getCommonOptions(opts);
     const child = fork(this.doczPath, [
       'dev',
       '--config',
       this.rcPath,
       '--port',
       '8001',
-      ...(typescript ? ['--typescript', typescript] : []),
-      ...(theme ? ['--theme', theme] : []),
-      ...(wrapper ? ['--wrapper', wrapper] : []),
-      ...(indexHtml ? ['--indexHtml', indexHtml] : []),
+      ...comnonOpts,
     ]);
 
     this.onEvent(child);
   }
 
-  public deploy() {
-    const child = fork(this.doczPath, ['build', '--config', this.rcPath, 'base', '.']);
+  public deploy(opts: IOpts) {
+    const comnonOpts = this.getCommonOptions(opts);
+    const child = fork(this.doczPath, [
+      'build',
+      '--config',
+      this.rcPath,
+      '--base',
+      '.',
+      ...comnonOpts,
+    ]);
     child.on('exit', (code: number) => {
       if (code === 0) {
         ghpages.publish(this.distDir, () => {
@@ -66,6 +71,16 @@ class Docz {
       }
     });
     // this.onEvent(child);
+  }
+
+  private getCommonOptions(opts: IOpts = {}) {
+    const { theme, wrapper, typescript, indexHtml } = opts;
+    return [
+      ...(typescript ? ['--typescript', typescript] : []),
+      ...(theme ? ['--theme', theme] : []),
+      ...(wrapper ? ['--wrapper', wrapper] : []),
+      ...(indexHtml ? ['--indexHtml', indexHtml] : []),
+    ];
   }
 
   private onEvent(child: ChildProcess) {
@@ -90,7 +105,7 @@ export default function(api: IApi, opts: IOpts = {}) {
         docz.dev(opts);
       } else if (subCommand === 'deploy') {
         const docz = new Docz(api);
-        docz.deploy();
+        docz.deploy(opts);
       }
     }
   );
