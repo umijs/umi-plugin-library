@@ -52,7 +52,7 @@ class Docz {
     this.onEvent(child);
   }
 
-  public deploy(opts: IOpts) {
+  public build(opts: IOpts) {
     const comnonOpts = this.getCommonOptions(opts);
     const child = fork(this.doczPath, [
       'build',
@@ -62,15 +62,14 @@ class Docz {
       '.',
       ...comnonOpts,
     ]);
-    child.on('exit', (code: number) => {
-      if (code === 0) {
-        ghpages.publish(this.distDir, () => {
-          // tslint:disable-next-line
-          console.log('publish done');
-        });
-      }
+    this.onEvent(child);
+  }
+
+  public deploy() {
+    ghpages.publish(this.distDir, () => {
+      // tslint:disable-next-line
+      console.log('publish done');
     });
-    // this.onEvent(child);
   }
 
   private getCommonOptions(opts: IOpts = {}) {
@@ -100,12 +99,13 @@ export default function(api: IApi, opts: IOpts = {}) {
     (args: IArgs) => {
       getWebpackConfig(api);
       const subCommand = args._[0];
+      const docz = new Docz(api);
       if (subCommand === 'dev') {
-        const docz = new Docz(api);
         docz.dev(opts);
+      } else if (subCommand === 'build') {
+        docz.build(opts);
       } else if (subCommand === 'deploy') {
-        const docz = new Docz(api);
-        docz.deploy(opts);
+        docz.deploy();
       }
     }
   );
