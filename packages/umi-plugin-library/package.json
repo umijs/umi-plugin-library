@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.1-alpha.4",
+  "version": "1.0.1-alpha.5",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -31,7 +31,7 @@
     "camelcase": "^5.0.0",
     "chalk": "^2.4.1",
     "debug": "^4.1.0",
-    "docz-theme-antd": "^1.0.0-alpha.4",
+    "docz-theme-antd": "^1.0.0-alpha.5",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.3",
     "less": "^3.9.0",
@@ -49,7 +49,7 @@
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-typescript2": "^0.18.1",
     "styled-components": "^4.1.3",
-    "umi-plugin-docz": "^1.0.0-alpha.4",
+    "umi-plugin-docz": "^1.0.0-alpha.5",
     "webpack-merge": "^4.1.4"
   }
 }
