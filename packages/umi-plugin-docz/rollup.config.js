@@ -21,13 +21,13 @@ const config = {
         }
     ],
     plugins: [
-        babel({
-            runtimeHelpers: true,
-            plugins: [
-            '@babel/plugin-transform-runtime'
-            ],
-            exclude: 'node_modules/**'
-        }),
+      babel({
+        runtimeHelpers: true,
+        plugins: [
+          '@babel/plugin-transform-runtime'
+        ],
+        exclude: 'node_modules/**'
+      }),
       json(),
       nodeResolve(),
       commonjs(),
