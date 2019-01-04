@@ -1,4 +1,4 @@
-import { rollup, RollupOptions, OutputOptions, RollupWarning } from 'rollup';
+import { rollup, RollupOptions, OutputOptions, RollupWarning, Plugin } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
@@ -8,6 +8,7 @@ import * as NpmImport from 'less-plugin-npm-import';
 import umiBabel from 'babel-preset-umi';
 import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import peerExternal from 'rollup-plugin-peer-deps-external';
+import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
 import { IApi } from '..';
@@ -15,6 +16,7 @@ import { IBundleOptions } from '..';
 
 export interface IInputOptions extends RollupOptions {
   external: string[];
+  plugins: Plugin[];
 }
 
 export type BundleType = 'umd' | 'cjs' | 'esm';
@@ -37,20 +39,31 @@ export default class Rollup {
   public async build() {
     this.outpuOptions.map(async item => {
       try {
-        const bundler = await rollup({
-          ...this.inputOptions,
-          ...(item.format !== 'umd' && {
+        let inputOptions;
+        if (item.format !== 'umd') {
+          inputOptions = {
+            ...this.inputOptions,
+            // cjs and esm should external dependencies
             external: this.inputOptions.external.concat(Object.keys(this.api.pkg.dependencies)),
-          }),
-        });
+          };
+        } else {
+          inputOptions = {
+            ...this.inputOptions,
+            plugins: [
+              ...this.inputOptions.plugins,
+              // uglify umd file in production env
+              ...(process.env.NODE_ENV === 'production' ? [terser()] : []),
+            ],
+          };
+        }
+        const bundler = await rollup(inputOptions);
         await bundler.write(item);
+        // tslint:disable-next-line
+        console.log(`rollup build ${item.format} done`);
       } catch (error) {
         // tslint:disable-next-line
-        console.log(error);
-        this.api.debug(error);
+        console.error('bundle error', error);
       }
-      // tslint:disable-next-line
-      console.log(`rollup build ${item.format} done`);
     });
   }
 
@@ -88,7 +101,16 @@ export default class Rollup {
         babel({
           runtimeHelpers: true,
           presets: [...extraBabelPresets, require.resolve('@babel/preset-react')],
-          plugins: [...extraBabelPlugins, ...umiBabel().plugins],
+          plugins: [
+            ...extraBabelPlugins,
+            ...umiBabel().plugins,
+            [
+              require.resolve('babel-plugin-inline-import-data-uri'),
+              {
+                extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
+              },
+            ],
+          ],
           exclude: 'node_modules/**',
         }),
         json(),
@@ -102,7 +124,6 @@ export default class Rollup {
             ...namedExports,
           },
         }),
-
         autoNamedExports(),
       ],
       onwarn: (warning: RollupWarning) => {

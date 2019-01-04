@@ -25,7 +25,7 @@ export default class Babel {
     const { cjs, esm } = this.options;
     const copy = new Copyfile(this.input, this.cwd);
     if (cjs && cjs.type === 'babel') {
-      const dir = 'lib'; // not support dir yet, need pass config to file
+      const dir = 'lib';
       await this.complie(dir, 'cjs');
       await copy.run(dir);
       // tslint:disable-next-line

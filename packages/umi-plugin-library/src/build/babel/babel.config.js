@@ -47,7 +47,12 @@ const config = {
   exclude: 'node_modules/**',
   ignore: ['**/*.test.js'],
   plugins: [
-    ...umiBabelConfig.plugins
+    ...umiBabelConfig.plugins,
+    [
+      require.resolve("babel-plugin-inline-import-data-uri"), {
+        "extensions": ["png", "jpg", "jpeg", "gif", "svg"]
+      }
+    ]
   ],
 };
 

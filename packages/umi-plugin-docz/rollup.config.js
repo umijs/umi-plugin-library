@@ -2,6 +2,7 @@ import nodeResolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import json from 'rollup-plugin-json';
 import typescript from 'rollup-plugin-typescript2';
+import babel from 'rollup-plugin-babel';
 import copy from 'rollup-plugin-cpy';
 import pkg from './package.json'
 
@@ -20,6 +21,13 @@ const config = {
         }
     ],
     plugins: [
+      babel({
+        runtimeHelpers: true,
+        plugins: [
+          '@babel/plugin-transform-runtime'
+        ],
+        exclude: 'node_modules/**'
+      }),
       json(),
       nodeResolve(),
       commonjs(),
