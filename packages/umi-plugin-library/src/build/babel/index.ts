@@ -13,7 +13,7 @@ export default class Babel {
   private options: IBundleOptions;
 
   constructor(api: IApi, options: IBundleOptions) {
-    const { input = 'src/index.js' } = options;
+    const { entry: input = 'src/index.js' } = options;
     this.options = options;
     this.cwd = api.cwd || process.cwd();
     this.babel = resolveBin('@babel/cli', { executable: 'babel' });

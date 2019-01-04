@@ -70,7 +70,7 @@ export default class Rollup {
   private getOpts(options: IBundleOptions) {
     const { debug, pkg }: IApi = this.api;
     const {
-      input = 'src/index.js',
+      entry: input = 'src/index.js',
       cssModules = true,
       extraBabelPlugins = [],
       extraBabelPresets = [],
