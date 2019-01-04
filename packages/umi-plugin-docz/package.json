@@ -15,7 +15,7 @@
     "name": "clock157",
     "email": "clock157@163.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "files": [
     "/dist"
   ],
