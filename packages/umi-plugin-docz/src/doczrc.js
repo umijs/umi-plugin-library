@@ -19,6 +19,11 @@ export default {
   },
   modifyBundlerConfig: (config) => {
     const { resolve } = readFile('webpack');
+
+    // 依赖可能会被 hoist 到这里
+    config.resolve.modules.push(join(__dirname, '../node_modules'));
+    config.resolveLoader.modules.push(join(__dirname, '../node_modules'));
+
     return merge({ resolve }, config);
   },
   plugins: [
