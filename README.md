@@ -5,7 +5,7 @@ Library development plugin for umi. The documentation is based on [docz](https:/
 ## Install
 
 ```bash
-$ yarn add umi-plguin-library
+$ yarn add umi-plugin-library
 ```
 
 ## Config
