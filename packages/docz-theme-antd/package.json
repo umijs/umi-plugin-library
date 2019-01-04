@@ -1,6 +1,6 @@
 {
   "name": "docz-theme-antd",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "docz theme with antd",
   "main": "dist/index.js",
   "module": "dist/index.js",
