@@ -44,7 +44,7 @@ export default class Rollup {
           inputOptions = {
             ...this.inputOptions,
             // cjs and esm should external dependencies
-            external: this.inputOptions.external.concat(Object.keys(this.api.pkg.dependencies)),
+            external: this.inputOptions.external.concat(Object.keys(this.api.pkg.dependencies || {})),
           };
         } else {
           inputOptions = {
