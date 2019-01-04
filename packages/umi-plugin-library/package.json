@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.1-alpha.8",
+  "version": "1.0.1-alpha.9",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -51,7 +51,7 @@
     "rollup-plugin-terser": "^4.0.0",
     "rollup-plugin-typescript2": "^0.18.1",
     "styled-components": "^4.1.3",
-    "umi-plugin-docz": "^1.0.0-alpha.8",
+    "umi-plugin-docz": "^1.0.0-alpha.9",
     "webpack-merge": "^4.1.4"
   }
 }
