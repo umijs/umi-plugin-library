@@ -21,7 +21,10 @@ export default class {
     const cmds = files.map((file: string) =>
       fse.copy(path.resolve(from, file), path.resolve(to, file))
     );
-    cmds.push(fse.copy(path.join(this.baseFolder, 'index.js'), path.join(to, 'index.d.ts')));
+    // no ts file treat as not ts project
+    if(files.length > 0) {
+      cmds.push(fse.copy(path.join(this.baseFolder, 'index.js'), path.join(to, 'index.d.ts')));
+    }
     return Promise.all(cmds);
   }
 }
