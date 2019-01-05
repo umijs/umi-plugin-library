@@ -6,13 +6,13 @@ import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss';
 import NpmImport from 'less-plugin-npm-import';
 import umiBabel from 'babel-preset-umi';
+import alias from 'rollup-plugin-alias';
 import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import peerExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
-import { IApi } from '..';
-import { IBundleOptions } from '..';
+import { IApi, IBundleOptions, IStringObject } from '..';
 
 export interface IInputOptions extends RollupOptions {
   external: string[];
@@ -68,7 +68,7 @@ export default class Rollup {
   }
 
   private getOpts(options: IBundleOptions) {
-    const { debug, pkg }: IApi = this.api;
+    const { debug, pkg, webpackConfig = { resolve: { alias: {}}} }: IApi = this.api;
     const {
       entry: input = 'src/index.js',
       cssModules = true,
@@ -81,10 +81,15 @@ export default class Rollup {
       umd,
       external = [],
     } = options;
+    const webpackAlias = this.transformAlias(webpackConfig.resolve.alias);
     this.inputOptions = {
       input,
       plugins: [
         peerExternal(),
+        alias({
+          ...webpackAlias,
+          resolve: ['.js', '/index.js']
+        }),
         postcss({
           modules: cssModules,
           use: [
@@ -163,5 +168,15 @@ export default class Rollup {
           ]
         : []),
     ];
+  }
+
+  // remove the tail $ symbol
+  private transformAlias(webpackAlias: IStringObject): IStringObject {
+    const result:IStringObject = {};
+    Object.keys(webpackAlias).reverse().forEach((key) => {
+      const newKey = key.replace(/\$$/, '');
+      result[newKey] = webpackAlias[key];
+    });
+    return result;
   }
 }
