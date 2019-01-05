@@ -49,7 +49,6 @@
     "babel-eslint": "^9.0.0",
     "babel-preset-umi": "^1.2.1",
     "cross-env": "^5.2.0",
-    "debug": "^4.1.0",
     "docz": "^0.12.15",
     "docz-plugin-css": "^0.11.0",
     "eslint": "^5.5.0",

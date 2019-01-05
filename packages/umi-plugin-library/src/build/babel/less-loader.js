@@ -5,8 +5,6 @@
  */
 const less = require('less');
 const path = require('path');
-// tslint:disable-next-line
-const debug = require('debug')('umi-plugin-library');
 
 module.exports = function processLess(data, filename) {
   let result;
@@ -30,7 +28,6 @@ module.exports = function processLess(data, filename) {
       javascriptEnabled: true,
     },
     (error, output) => {
-      debug(error);
       result = output.css;
     }
   );
