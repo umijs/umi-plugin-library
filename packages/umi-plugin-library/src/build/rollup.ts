@@ -4,7 +4,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
 import babel from 'rollup-plugin-babel';
 import postcss from 'rollup-plugin-postcss';
-import * as NpmImport from 'less-plugin-npm-import';
+import NpmImport from 'less-plugin-npm-import';
 import umiBabel from 'babel-preset-umi';
 import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import peerExternal from 'rollup-plugin-peer-deps-external';
@@ -70,7 +70,7 @@ export default class Rollup {
   private getOpts(options: IBundleOptions) {
     const { debug, pkg }: IApi = this.api;
     const {
-      input = 'src/index.js',
+      entry: input = 'src/index.js',
       cssModules = true,
       extraBabelPlugins = [],
       extraBabelPresets = [],

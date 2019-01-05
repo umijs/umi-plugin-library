@@ -9,7 +9,7 @@
     "noUnusedParameters": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-    "target": "es6",
+    "target": "es5",
     "lib": ["dom", "es7"]
   },
   "exclude": ["node_modules", "lib", "es"]

@@ -39,7 +39,7 @@ export interface IBundleTypeOutput {
 }
 
 export interface IBundleOptions {
-  input?: string;
+  entry?: string;
   cssModules?: boolean;
   extraBabelPlugins?: BabelOpt[];
   extraBabelPresets?: BabelOpt[];
