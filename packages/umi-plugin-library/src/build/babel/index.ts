@@ -10,19 +10,16 @@ export default class Babel {
   private babel: string;
   private babelRc: string;
   private input: string;
-  private options: IBundleOptions;
 
-  constructor(api: IApi, options: IBundleOptions) {
-    const { entry: input = 'src/index.js' } = options;
-    this.options = options;
-    this.cwd = api.cwd || process.cwd();
+  constructor(api: IApi) {
+    this.cwd = api.cwd;
     this.babel = resolveBin('@babel/cli', { executable: 'babel' });
     this.babelRc = join(__dirname, 'babel.config');
-    this.input = dirname(join(this.cwd, input));
   }
 
-  public async build() {
-    const { cjs, esm } = this.options;
+  public async build(options: IBundleOptions) {
+    const { cjs, esm, entry: input = 'src/index.js' } = options;
+    this.input = dirname(join(this.cwd, input));
     const copy = new Copyfile(this.input, this.cwd);
     if (cjs && cjs.type === 'babel') {
       const dir = 'lib';

@@ -12,7 +12,8 @@ import peerExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
-import { IApi, IBundleOptions, IStringObject } from '..';
+import { IApi, IBundleOptions, IStringObject, IPkg } from '..';
+import { join } from 'path';
 
 export interface IInputOptions extends RollupOptions {
   external: string[];
@@ -31,12 +32,12 @@ export default class Rollup {
   private outpuOptions: any[];
   private api: IApi;
 
-  constructor(api: IApi, options: IBundleOptions) {
+  constructor(api: IApi) {
     this.api = api;
-    this.getOpts(options);
   }
 
-  public async build() {
+  public async build(options: IBundleOptions, pkg: IPkg, cwd: string) {
+    this.getOpts(options, pkg, cwd);
     this.outpuOptions.map(async item => {
       try {
         let inputOptions;
@@ -44,7 +45,7 @@ export default class Rollup {
           inputOptions = {
             ...this.inputOptions,
             // cjs and esm should external dependencies
-            external: this.inputOptions.external.concat(Object.keys(this.api.pkg.dependencies || {})),
+            external: this.inputOptions.external.concat(Object.keys(pkg.dependencies || {})),
           };
         } else {
           inputOptions = {
@@ -57,9 +58,10 @@ export default class Rollup {
           };
         }
         const bundler = await rollup(inputOptions);
+        item.file = join(cwd, item.file);
         await bundler.write(item);
         // tslint:disable-next-line
-        console.log(`rollup build ${item.format} done`);
+        console.log(`build ${pkg.name} ${item.format} done`);
       } catch (error) {
         // tslint:disable-next-line
         console.error('bundle error', error);
@@ -67,8 +69,8 @@ export default class Rollup {
     });
   }
 
-  private getOpts(options: IBundleOptions) {
-    const { debug, pkg, webpackConfig = { resolve: { alias: {}}} }: IApi = this.api;
+  private getOpts(options: IBundleOptions, pkg: IPkg, cwd: string) {
+    const { debug, webpackConfig = { resolve: { alias: {} } } }: IApi = this.api;
     const {
       entry: input = 'src/index.js',
       cssModules = true,
@@ -83,12 +85,12 @@ export default class Rollup {
     } = options;
     const webpackAlias = this.transformAlias(webpackConfig.resolve.alias);
     this.inputOptions = {
-      input,
+      input: join(cwd, input),
       plugins: [
         peerExternal(),
         alias({
           ...webpackAlias,
-          resolve: ['.js', '/index.js']
+          resolve: ['.js', '/index.js'],
         }),
         postcss({
           modules: cssModules,
@@ -123,7 +125,7 @@ export default class Rollup {
           browser: true,
         }),
         commonjs({
-          include: 'node_modules/**',
+          include: /node_modules/,
           namedExports: {
             // autoNamedExports not supported module.
             ...namedExports,
@@ -145,7 +147,7 @@ export default class Rollup {
         ? [
             {
               format: 'cjs',
-              file: pkg.main || 'dist/index.js',
+              file: pkg.main || (cjs && cjs.name) || 'dist/index.js',
             },
           ]
         : []),
@@ -153,7 +155,7 @@ export default class Rollup {
         ? [
             {
               format: 'esm',
-              file: pkg.module || 'dist/index.esm.js',
+              file: pkg.module || (esm && esm.name) || 'dist/index.esm.js',
             },
           ]
         : []),
@@ -161,7 +163,7 @@ export default class Rollup {
         ? [
             {
               format: 'umd',
-              file: pkg.unpkg || 'dist/index.umd.js',
+              file: pkg.unpkg || (umd && umd.name) || 'dist/index.umd.js',
               globals: umd && umd.globals,
               name: (umd && umd.name) || camelCase(pkg.name),
             },
@@ -172,11 +174,13 @@ export default class Rollup {
 
   // remove the tail $ symbol
   private transformAlias(webpackAlias: IStringObject): IStringObject {
-    const result:IStringObject = {};
-    Object.keys(webpackAlias).reverse().forEach((key) => {
-      const newKey = key.replace(/\$$/, '');
-      result[newKey] = webpackAlias[key];
-    });
+    const result: IStringObject = {};
+    Object.keys(webpackAlias)
+      .reverse()
+      .forEach(key => {
+        const newKey = key.replace(/\$$/, '');
+        result[newKey] = webpackAlias[key];
+      });
     return result;
   }
 }
