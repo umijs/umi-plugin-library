@@ -12,16 +12,18 @@ export interface IApi {
   applyPlugins: (name: string, options: object) => object;
   cwd: string;
   registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
-  webpackConfig: object;
+  webpackConfig: {
+    resolve: {
+      alias: IStringObject
+    }
+  };
   debug: (msg: any) => void;
   pkg: {
     name: string;
     main?: string;
     module?: string;
     unpkg?: string;
-    dependencies: {
-      [props: string]: string;
-    };
+    dependencies: IStringObject;
   };
 }
 
@@ -44,20 +46,20 @@ export interface IBundleOptions {
   extraBabelPlugins?: BabelOpt[];
   extraBabelPresets?: BabelOpt[];
   extraPostCSSPlugins?: any[];
-  namedExports?: {
-    [props: string]: string;
-  };
+  namedExports?: IStringObject;
   esm?: IBundleTypeOutput | false;
   cjs?: IBundleTypeOutput | false;
   umd?:
     | {
-        globals?: {
-          [props: string]: string;
-        };
+        globals?: IStringObject;
         name?: string;
       }
     | false;
   external?: string[];
+}
+
+export interface IStringObject {
+  [prop: string]: string;
 }
 
 export default function(api: IApi, opts: IOpts = {}) {

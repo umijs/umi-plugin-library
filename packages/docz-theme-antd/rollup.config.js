@@ -10,7 +10,6 @@ import external from 'rollup-plugin-peer-deps-external';
 import namedDirectory from 'rollup-plugin-named-directory';
 import autoprefixer from 'autoprefixer';
 import pkg from './package.json'
-const debug = require('debug')('rollup');
 
 const env = process.env.NODE_ENV;
 

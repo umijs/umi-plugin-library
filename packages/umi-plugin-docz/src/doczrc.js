@@ -34,6 +34,9 @@ export default {
       },
       preprocessor: 'less',
     }),
-    css({ preprocessor: 'postcss' }),
+    css({
+      preprocessor: 'postcss',
+      cssmodules: true,
+  }),
   ],
 };

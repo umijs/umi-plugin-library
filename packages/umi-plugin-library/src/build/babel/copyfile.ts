@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as fs from 'fs';
 import fse from 'fs-extra';
 import glob from 'glob';
 
@@ -21,7 +22,13 @@ export default class {
     const cmds = files.map((file: string) =>
       fse.copy(path.resolve(from, file), path.resolve(to, file))
     );
-    cmds.push(fse.copy(path.join(this.baseFolder, 'index.js'), path.join(to, 'index.d.ts')));
+    // no ts file treat as not ts project
+    if(files.length > 0) {
+      let indexDTs = path.join(this.baseFolder, 'index.d.ts');
+      // if no index.d.ts, use index.js
+      indexDTs = fs.existsSync(indexDTs) ? indexDTs : path.join(this.baseFolder, 'index.js');
+      cmds.push(fse.copy(indexDTs, path.join(to, 'index.d.ts')));
+    }
     return Promise.all(cmds);
   }
 }
