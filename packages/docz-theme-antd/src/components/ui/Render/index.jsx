@@ -29,7 +29,9 @@ export class Render extends Component {
             <div className="render">
                 <section className={codeBoxClass}>
                     <section className="code-box-demo">
-                        {this.props.component}
+                        {
+                          typeof this.props.component === 'function' ? this.props.component() : this.props.component
+                        }
                     </section>
                     <section className="code-box-meta markdown">
                       <div className="code-box-title">
