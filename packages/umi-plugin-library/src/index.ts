@@ -46,7 +46,6 @@ export interface IBundleTypeOutput {
 
 export interface IBundleOptions {
   entry?: string;
-  learna?: boolean;
   cssModules?: boolean;
   extraBabelPlugins?: BabelOpt[];
   extraBabelPresets?: BabelOpt[];

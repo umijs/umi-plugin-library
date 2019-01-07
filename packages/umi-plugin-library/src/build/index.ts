@@ -1,7 +1,7 @@
 import rimraf from 'rimraf';
 import Rollup from './rollup';
 import Babel from './babel';
-import { readdirSync, readFileSync } from 'fs';
+import { readdirSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { IApi, IBundleOptions, IArgs } from '..';
 
@@ -25,7 +25,7 @@ class Bundler {
     this.bundlerBabel.build(opts);
   }
 
-  public async buildForLearna(opts: IBundleOptions) {
+  public async buildForLerna(opts: IBundleOptions) {
     readdirSync(join(this.api.cwd, 'packages')).forEach(folder => {
       const cwd = join(this.api.cwd, 'packages', folder);
       const pkg = readFileSync(join(cwd, 'package.json'), 'utf-8');
@@ -49,8 +49,9 @@ export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
   const subCommand = args._[0];
   const bundler = new Bundler(api);
   if (subCommand === 'build') {
-    if (opts.learna) {
-      bundler.buildForLearna(opts);
+    const useLerna = existsSync(join(api.cwd, 'lerna.json'));
+    if (useLerna) {
+      bundler.buildForLerna(opts);
     } else {
       bundler.build(opts);
     }
