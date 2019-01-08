@@ -9,7 +9,7 @@ import umiBabel from 'babel-preset-umi';
 import alias from 'rollup-plugin-alias';
 import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import peerExternal from 'rollup-plugin-peer-deps-external';
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
 import { IApi, IBundleOptions, IStringObject, IPkg } from '..';
@@ -56,7 +56,7 @@ export default class Rollup {
 
           // options for uglify
           inputOptions = { ...this.inputOptions };
-          inputOptions.plugins.push(uglify());
+          inputOptions.plugins.push(terser());
         }
         const bundler = await rollup(inputOptions);
         item.file = join(cwd, item.file);
@@ -180,7 +180,7 @@ export default class Rollup {
               format: 'umd',
               file: pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js',
               globals: umd && umd.globals,
-              name: (umd && umd.name) || camelCase(pkg.name),
+              name: (umd && umd.name) || camelCase(basename(pkg.name)),
             },
           ]
         : []),
