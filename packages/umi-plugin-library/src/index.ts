@@ -8,23 +8,26 @@ export interface IArgs {
     [index: number]: Params;
   };
 }
+
+export interface IPkg {
+  name: string;
+  main?: string;
+  module?: string;
+  unpkg?: string;
+  dependencies: IStringObject;
+}
+
 export interface IApi {
   applyPlugins: (name: string, options: object) => object;
   cwd: string;
   registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
   webpackConfig: {
     resolve: {
-      alias: IStringObject
-    }
+      alias: IStringObject;
+    };
   };
   debug: (msg: any) => void;
-  pkg: {
-    name: string;
-    main?: string;
-    module?: string;
-    unpkg?: string;
-    dependencies: IStringObject;
-  };
+  pkg: IPkg;
 }
 
 export interface IOpts extends IBundleOptions {
@@ -37,6 +40,7 @@ export type BundleTool = 'rollup' | 'babel';
 
 export interface IBundleTypeOutput {
   type: BundleTool;
+  name?: string;
   dir?: string;
 }
 
