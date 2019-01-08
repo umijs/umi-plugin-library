@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@babel/cli": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
     "autoprefixer": "^9.4.3",
     "babel-merge": "^2.0.1",
     "babel-plugin-css-modules-transform": "^1.6.2",
@@ -42,7 +43,7 @@
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.3",
-    "rollup-plugin-terser": "^4.0.0",
+    "rollup-plugin-uglify": "^6.0.0",
     "umi-plugin-docz": "^1.0.1-alpha.12",
     "webpack-merge": "^4.1.4"
   },

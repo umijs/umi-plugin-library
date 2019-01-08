@@ -40,7 +40,7 @@ export type BundleTool = 'rollup' | 'babel';
 
 export interface IBundleTypeOutput {
   type: BundleTool;
-  name?: string;
+  file?: string;
   dir?: string;
 }
 
@@ -53,10 +53,17 @@ export interface IBundleOptions {
   namedExports?: IStringObject;
   esm?: IBundleTypeOutput | false;
   cjs?: IBundleTypeOutput | false;
+  targets?:
+    | string
+    | string[]
+    | {
+        [prop: string]: string;
+      };
   umd?:
     | {
         globals?: IStringObject;
         name?: string;
+        file?: string;
       }
     | false;
   external?: string[];

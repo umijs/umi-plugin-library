@@ -44,7 +44,7 @@ const config = {
     },
   },
 
-  exclude: 'node_modules/**',
+  exclude: /node_modules/,
   ignore: ['**/*.test.js'],
   plugins: [
     ...umiBabelConfig.plugins,
