@@ -51,6 +51,12 @@ export interface IBundleTypeOutput {
   dir?: string;
 }
 
+export interface IUmd {
+  globals?: IStringObject;
+  name?: string;
+  file?: string;
+}
+
 export interface IBundleOptions {
   entry?: string;
   cssModules?: boolean;
@@ -60,19 +66,13 @@ export interface IBundleOptions {
   namedExports?: IStringObject;
   esm?: IBundleTypeOutput | false;
   cjs?: IBundleTypeOutput | false;
+  umd?: IUmd | false;
   targets?:
     | string
     | string[]
     | {
         [prop: string]: string;
       };
-  umd?:
-    | {
-        globals?: IStringObject;
-        name?: string;
-        file?: string;
-      }
-    | false;
   external?: string[];
 }
 
