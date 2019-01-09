@@ -12,7 +12,7 @@ import peerExternal from 'rollup-plugin-peer-deps-external';
 import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
-import { IApi, IBundleOptions, IStringObject, IPkg } from '..';
+import { IApi, IBundleOptions, IStringObject, IPkg, IUmd } from '..';
 import { join, basename } from 'path';
 
 export interface IInputOptions extends RollupOptions {
@@ -48,20 +48,17 @@ export default class Rollup {
             external: this.inputOptions.external.concat(Object.keys(pkg.dependencies || {})),
           };
         } else {
-          // umd need bundle uglify and no uglify both
-          const filename = basename(item.file, '.js');
-          const developmentFile = join(cwd, item.file.replace(filename, `${filename}.development`));
-          const developmentBundler = await rollup(this.inputOptions);
-          await developmentBundler.write({ ...item, file: developmentFile });
-
           // options for uglify
-          inputOptions = { ...this.inputOptions };
-          inputOptions.plugins.push(terser());
+          inputOptions = {
+            ...this.inputOptions,
+            plugins: [...this.inputOptions.plugins, ...(item.development ? [] : [terser()])],
+          };
         }
         const bundler = await rollup(inputOptions);
+        const info = `${item.format}: ${item.file}`;
         item.file = join(cwd, item.file);
         await bundler.write(item);
-        this.api.log.success(`build ${pkg.name} ${item.format} done`);
+        this.api.log.success(`[${pkg.name}] ${info}`);
       } catch (error) {
         // tslint:disable-next-line
         console.error('bundle error', error);
@@ -174,16 +171,24 @@ export default class Rollup {
           ]
         : []),
       ...(umd !== false
-        ? [
-            {
-              format: 'umd',
-              file: pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js',
-              globals: umd && umd.globals,
-              name: (umd && umd.name) || camelCase(basename(pkg.name)),
-            },
-          ]
+        ? [this.getUmdOptions(pkg, umd, true), this.getUmdOptions(pkg, umd, false)]
         : []),
     ];
+  }
+
+  private getUmdOptions(pkg: IPkg, umd: IUmd | undefined, development: boolean) {
+    let file = pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js';
+    if (development) {
+      const filename = basename(file, '.js');
+      file = file.replace(filename, `${filename}.development`);
+    }
+    return {
+      format: 'umd',
+      file,
+      globals: umd && umd.globals,
+      name: (umd && umd.name) || camelCase(basename(pkg.name)),
+      development,
+    };
   }
 
   // remove the tail $ symbol
