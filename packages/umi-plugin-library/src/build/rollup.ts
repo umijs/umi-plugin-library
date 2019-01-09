@@ -61,8 +61,7 @@ export default class Rollup {
         const bundler = await rollup(inputOptions);
         item.file = join(cwd, item.file);
         await bundler.write(item);
-        // tslint:disable-next-line
-        console.log(`build ${pkg.name} ${item.format} done`);
+        this.api.log.success(`build ${pkg.name} ${item.format} done`);
       } catch (error) {
         // tslint:disable-next-line
         console.error('bundle error', error);
@@ -80,7 +79,7 @@ export default class Rollup {
       namedExports,
       extraPostCSSPlugins = [],
       targets = {
-        browsers: ['IE 11'],
+        ie: 11,
       },
       cjs,
       esm,

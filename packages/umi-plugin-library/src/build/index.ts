@@ -33,6 +33,8 @@ class Bundler {
         const pkg = readFileSync(pkgPath, 'utf-8');
         this.clean(cwd);
         this.bundlerRollup.build(opts, JSON.parse(pkg), cwd);
+      } else {
+        this.api.log.warn(`package.json not found in packages/${folder}`);
       }
     });
 

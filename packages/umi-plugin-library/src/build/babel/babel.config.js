@@ -33,7 +33,8 @@ const config = {
             require.resolve('@babel/preset-env'),
             {
               targets: {
-                esmodules: true,
+                // TODO, 更好的参数传递方式到这个文件.
+                ie: 11,
               },
               modules: false,
             },

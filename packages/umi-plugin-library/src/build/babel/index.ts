@@ -6,12 +6,14 @@ import { IApi, IBundleOptions } from '../..';
 type buildType = 'cjs' | 'esm';
 
 export default class Babel {
+  private api: IApi;
   private cwd: string;
   private babel: string;
   private babelRc: string;
   private input: string;
 
   constructor(api: IApi) {
+    this.api = api;
     this.cwd = api.cwd;
     this.babel = resolveBin('@babel/cli', { executable: 'babel' });
     this.babelRc = join(__dirname, 'babel.config');
@@ -25,15 +27,13 @@ export default class Babel {
       const dir = 'lib';
       await this.complie(dir, 'cjs');
       await copy.run(dir);
-      // tslint:disable-next-line
-      console.log('babel complie cjs done');
+      this.api.log.success('complie cjs done');
     }
     if (esm && esm.type === 'babel') {
       const dir = 'es';
       await this.complie(dir, 'esm');
       await copy.run(dir);
-      // tslint:disable-next-line
-      console.log('babel complie esm done');
+      this.api.log.success('complie esm done');
     }
   }
 
