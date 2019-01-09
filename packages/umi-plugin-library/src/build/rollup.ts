@@ -13,7 +13,7 @@ import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
 import { IApi, IBundleOptions, IStringObject, IPkg } from '..';
-import { join } from 'path';
+import { join, basename } from 'path';
 
 export interface IInputOptions extends RollupOptions {
   external: string[];
@@ -48,20 +48,20 @@ export default class Rollup {
             external: this.inputOptions.external.concat(Object.keys(pkg.dependencies || {})),
           };
         } else {
-          inputOptions = {
-            ...this.inputOptions,
-            plugins: [
-              ...this.inputOptions.plugins,
-              // uglify umd file in production env
-              ...(process.env.NODE_ENV === 'production' ? [terser()] : []),
-            ],
-          };
+          // umd need bundle uglify and no uglify both
+          const filename = basename(item.file, '.js');
+          const developmentFile = join(cwd, item.file.replace(filename, `${filename}.development`));
+          const developmentBundler = await rollup(this.inputOptions);
+          await developmentBundler.write({ ...item, file: developmentFile });
+
+          // options for uglify
+          inputOptions = { ...this.inputOptions };
+          inputOptions.plugins.push(terser());
         }
         const bundler = await rollup(inputOptions);
         item.file = join(cwd, item.file);
         await bundler.write(item);
-        // tslint:disable-next-line
-        console.log(`build ${pkg.name} ${item.format} done`);
+        this.api.log.success(`build ${pkg.name} ${item.format} done`);
       } catch (error) {
         // tslint:disable-next-line
         console.error('bundle error', error);
@@ -78,6 +78,9 @@ export default class Rollup {
       extraBabelPresets = [],
       namedExports,
       extraPostCSSPlugins = [],
+      targets = {
+        ie: 11,
+      },
       cjs,
       esm,
       umd,
@@ -107,7 +110,17 @@ export default class Rollup {
         }),
         babel({
           runtimeHelpers: true,
-          presets: [...extraBabelPresets, require.resolve('@babel/preset-react')],
+          presets: [
+            ...extraBabelPresets,
+            [
+              require.resolve('@babel/preset-env'),
+              {
+                modules: false,
+                targets,
+              },
+            ],
+            require.resolve('@babel/preset-react'),
+          ],
           plugins: [
             ...extraBabelPlugins,
             ...umiBabel().plugins,
@@ -118,7 +131,7 @@ export default class Rollup {
               },
             ],
           ],
-          exclude: 'node_modules/**',
+          exclude: /node_modules/,
         }),
         json(),
         resolve({
@@ -142,12 +155,13 @@ export default class Rollup {
       external: external.concat(['react', 'react-dom', 'antd']),
     };
 
+    // TODO 优化
     this.outpuOptions = [
       ...(cjs !== false && !(cjs && cjs.type === 'babel')
         ? [
             {
               format: 'cjs',
-              file: pkg.main || (cjs && cjs.name) || 'dist/index.js',
+              file: pkg.main || (cjs && cjs.file) || 'dist/index.js',
             },
           ]
         : []),
@@ -155,7 +169,7 @@ export default class Rollup {
         ? [
             {
               format: 'esm',
-              file: pkg.module || (esm && esm.name) || 'dist/index.esm.js',
+              file: pkg.module || (esm && esm.file) || 'dist/index.esm.js',
             },
           ]
         : []),
@@ -163,9 +177,9 @@ export default class Rollup {
         ? [
             {
               format: 'umd',
-              file: pkg.unpkg || (umd && umd.name) || 'dist/index.umd.js',
+              file: pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js',
               globals: umd && umd.globals,
-              name: (umd && umd.name) || camelCase(pkg.name),
+              name: (umd && umd.name) || camelCase(basename(pkg.name)),
             },
           ]
         : []),

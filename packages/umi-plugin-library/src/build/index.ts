@@ -28,10 +28,13 @@ class Bundler {
   public async buildForLerna(opts: IBundleOptions) {
     readdirSync(join(this.api.cwd, 'packages')).forEach(folder => {
       const cwd = join(this.api.cwd, 'packages', folder);
-      const pkg = readFileSync(join(cwd, 'package.json'), 'utf-8');
-      if (pkg) {
+      const pkgPath = join(cwd, 'package.json');
+      if (existsSync(pkgPath)) {
+        const pkg = readFileSync(pkgPath, 'utf-8');
         this.clean(cwd);
         this.bundlerRollup.build(opts, JSON.parse(pkg), cwd);
+      } else {
+        this.api.log.warn(`package.json not found in packages/${folder}`);
       }
     });
 

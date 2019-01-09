@@ -1,7 +1,13 @@
 import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
 import Build from './build';
 
-type Params = 'build' | 'dev' | 'deploy';
+export type Params = 'build' | 'dev' | 'deploy';
+
+export type BabelOpt = string | [string, any?];
+
+export type BundleTool = 'rollup' | 'babel';
+
+export type Log = (msg: string) => void;
 export interface IArgs {
   _: {
     length: number;
@@ -28,19 +34,20 @@ export interface IApi {
   };
   debug: (msg: any) => void;
   pkg: IPkg;
+  log: {
+    warn: Log;
+    success: Log;
+    error: Log;
+  };
 }
 
 export interface IOpts extends IBundleOptions {
   doc?: IDocOpts;
 }
 
-export type BabelOpt = string | [string, any?];
-
-export type BundleTool = 'rollup' | 'babel';
-
 export interface IBundleTypeOutput {
   type: BundleTool;
-  name?: string;
+  file?: string;
   dir?: string;
 }
 
@@ -53,10 +60,17 @@ export interface IBundleOptions {
   namedExports?: IStringObject;
   esm?: IBundleTypeOutput | false;
   cjs?: IBundleTypeOutput | false;
+  targets?:
+    | string
+    | string[]
+    | {
+        [prop: string]: string;
+      };
   umd?:
     | {
         globals?: IStringObject;
         name?: string;
+        file?: string;
       }
     | false;
   external?: string[];
