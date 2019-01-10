@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-alpha.15](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.14...umi-plugin-library@1.0.1-alpha.15) (2019-01-10)
+
+
+### Bug Fixes
+
+* umd bundle same size ([#37](https://github.com/umijs/umi-plugin-library/issues/37)) ([a1d7464](https://github.com/umijs/umi-plugin-library/commit/a1d7464))
+
+
+
+
+
 ## [1.0.1-alpha.14](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.13...umi-plugin-library@1.0.1-alpha.14) (2019-01-09)
 
 
