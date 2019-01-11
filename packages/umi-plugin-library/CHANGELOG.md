@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-alpha.16](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.15...umi-plugin-library@1.0.1-alpha.16) (2019-01-11)
+
+
+### Features
+
+* support disable lerna. ([#38](https://github.com/umijs/umi-plugin-library/issues/38)) ([a290772](https://github.com/umijs/umi-plugin-library/commit/a290772))
+
+
+
+
+
 ## [1.0.1-alpha.15](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.14...umi-plugin-library@1.0.1-alpha.15) (2019-01-10)
 
 
