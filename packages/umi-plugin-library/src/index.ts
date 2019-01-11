@@ -74,7 +74,6 @@ export interface IBundleOptions {
         [prop: string]: string;
       };
   external?: string[];
-  lerna?: boolean;
 }
 
 export interface IStringObject {
