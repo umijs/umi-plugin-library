@@ -53,7 +53,7 @@ export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
   const bundler = new Bundler(api);
   if (subCommand === 'build') {
     const useLerna = existsSync(join(api.cwd, 'lerna.json'));
-    if (useLerna) {
+    if (useLerna && process.env.LERNA !== 'none') {
       bundler.buildForLerna(opts);
     } else {
       bundler.build(opts);
