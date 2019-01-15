@@ -20,7 +20,7 @@ export default {
       doc: {
         theme: 'docz-theme-antd'
       },
-      input: 'components/index.js',
+      entry: 'src/index.js',
       esm: {
         type: 'babel',
       },
