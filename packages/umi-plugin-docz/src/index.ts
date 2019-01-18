@@ -47,6 +47,7 @@ class Docz {
       '--port',
       '8001',
       ...comnonOpts,
+      ...process.argv.slice(4),
     ]);
 
     this.onEvent(child);
@@ -61,6 +62,7 @@ class Docz {
       '--base',
       '.',
       ...comnonOpts,
+      ...process.argv.slice(4),
     ]);
     this.onEvent(child);
   }
