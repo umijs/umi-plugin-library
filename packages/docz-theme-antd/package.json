@@ -16,7 +16,11 @@
   "files": [
     "/dist"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:umijs/umi-plugin-library.git"
+  },
+  "bugs": "https://github.com/umijs/umi-plugin-library/issues",
   "license": "MIT",
   "dependencies": {
     "ant-design-pro": "^2.1.1",
