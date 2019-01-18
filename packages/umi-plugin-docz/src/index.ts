@@ -9,6 +9,7 @@ export interface IOpts {
   wrapper?: string;
   typescript?: string;
   indexHtml?: string;
+  host?: string;
 }
 
 type Params = 'build' | 'dev' | 'deploy';
@@ -47,6 +48,7 @@ class Docz {
       '--port',
       '8001',
       ...comnonOpts,
+      ...process.argv.slice(4),
     ]);
 
     this.onEvent(child);
@@ -61,6 +63,7 @@ class Docz {
       '--base',
       '.',
       ...comnonOpts,
+      ...process.argv.slice(4),
     ]);
     this.onEvent(child);
   }
@@ -73,12 +76,13 @@ class Docz {
   }
 
   private getCommonOptions(opts: IOpts = {}) {
-    const { theme, wrapper, typescript, indexHtml } = opts;
+    const { theme, wrapper, typescript, indexHtml, host } = opts;
     return [
       ...(typescript ? ['--typescript', typescript] : []),
       ...(theme ? ['--theme', theme] : []),
       ...(wrapper ? ['--wrapper', wrapper] : []),
       ...(indexHtml ? ['--indexHtml', indexHtml] : []),
+      ...(host ? ['--host', host] : []),
     ];
   }
 
