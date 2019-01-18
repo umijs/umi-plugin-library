@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-docz",
-  "version": "1.0.1-alpha.12",
+  "version": "1.0.1-alpha.13",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
