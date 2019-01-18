@@ -9,7 +9,6 @@ export interface IOpts {
   wrapper?: string;
   typescript?: string;
   indexHtml?: string;
-  host?: string;
 }
 
 type Params = 'build' | 'dev' | 'deploy';
@@ -76,13 +75,12 @@ class Docz {
   }
 
   private getCommonOptions(opts: IOpts = {}) {
-    const { theme, wrapper, typescript, indexHtml, host } = opts;
+    const { theme, wrapper, typescript, indexHtml } = opts;
     return [
       ...(typescript ? ['--typescript', typescript] : []),
       ...(theme ? ['--theme', theme] : []),
       ...(wrapper ? ['--wrapper', wrapper] : []),
       ...(indexHtml ? ['--indexHtml', indexHtml] : []),
-      ...(host ? ['--host', host] : []),
     ];
   }
 
