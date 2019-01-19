@@ -28,7 +28,7 @@
   "dependencies": {
     "debug": "^4.1.0",
     "docz": "^0.13.4",
-    "docz-plugin-css": "^0.11.0",
+    "docz-plugin-css-temp": "^0.13.0",
     "docz-theme-default": "^0.13.7",
     "gh-pages": "^2.0.1",
     "is-ali-env": "^0.1.4",
