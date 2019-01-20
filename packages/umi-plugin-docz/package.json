@@ -8,8 +8,7 @@
     "dev": "NODE_ENV=development rollup -c -w",
     "build": "NODE_ENV=production rollup -c",
     "prepublishOnly": "rm -rf ./dist && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "node postinstall.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": {
@@ -31,9 +30,7 @@
     "docz-plugin-css-temp": "^0.13.0",
     "docz-theme-default": "^0.13.7",
     "gh-pages": "^2.0.1",
-    "is-ali-env": "^0.1.4",
     "resolve-bin": "^0.4.0",
-    "rimraf": "^2.6.3",
     "webpack-merge": "^4.1.5"
   },
   "devDependencies": {
