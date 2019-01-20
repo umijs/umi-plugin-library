@@ -1,0 +1,31 @@
+---
+name: 说明
+route: /api
+menu: API
+---
+# API 说明
+
+## 和 umi 的关系
+umiJS 是一款可插拔的企业级 react 应用框架, umi-plugin-library 是基于它的一个插件, 遵循其插件使用机制, 详情可见 [umi文档](https://umijs.org/zh/plugin/#%E6%8F%92%E4%BB%B6%E4%BD%BF%E7%94%A8)
+
+## 配置示例
+```js
+// .umirc.js
+export default {
+  plugins: [
+    ['umi-plugin-library', {
+        /** doc 配置 */
+        doc: {
+            title: 'Umi 组件开发文档',
+        },
+        /** bundle 配置 */
+        entry: 'src/index.js',
+        external: ['react', 'react-dome', 'antd'],
+    }],
+  ],
+}
+```
+
+## [doc 配置](./api/doc)
+
+## [bundle 配置](./api/bundle)
