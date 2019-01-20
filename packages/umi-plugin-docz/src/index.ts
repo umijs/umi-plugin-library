@@ -1,5 +1,5 @@
 import { fork, ChildProcess } from 'child_process';
-import { getWebpackConfig } from './utils';
+import { getWebpackConfig, writeFile } from './utils';
 import { sync as resolveBin } from 'resolve-bin';
 import ghpages from 'gh-pages';
 import * as path from 'path';
@@ -100,6 +100,9 @@ export default function(api: IApi, opts: IOpts = {}) {
     },
     (args: IArgs) => {
       getWebpackConfig(api);
+      // write doc options to file for further use
+      writeFile('docOpts', opts);
+
       const subCommand = args._[0];
       const docz = new Docz(api);
       if (subCommand === 'dev') {

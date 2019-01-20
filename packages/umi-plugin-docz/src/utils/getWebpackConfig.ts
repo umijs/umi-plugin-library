@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import { join, resolve } from 'path';
 import { IApi } from '..';
 
-type filename = 'afWebpack' | 'webpack';
+type filename = 'afWebpack' | 'webpack' | 'docOpts';
 export interface IAfWebpackConfig {
   babel: {
     plugins: any[];
@@ -21,12 +21,12 @@ export interface IConfig {
   webpack: IWebpackConfig;
 }
 
-function writeFile(name: filename, data: any) {
+export function writeFile(name: filename, data: any) {
   const configPath = resolve(__dirname, `${name}.json`);
   fs.writeFileSync(configPath, JSON.stringify(data));
 }
 
-function readFile(name: filename) {
+export function readFile(name: filename) {
   const config = fs.readFileSync(join(__dirname, `${name}.json`), 'utf8');
   return JSON.parse(config);
 }

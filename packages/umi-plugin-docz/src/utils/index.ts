@@ -1,2 +1,2 @@
 // todo 独立包
-export { getWebpackConfig, loadWebpackConfig } from './getWebpackConfig';
+export { getWebpackConfig, loadWebpackConfig, writeFile, readFile } from './getWebpackConfig';
