@@ -16,9 +16,14 @@ export interface IArgs {
   };
 }
 
+export interface IPkg {
+  name: string;
+}
+
 export interface IApi {
   applyPlugins: (name: string, options: object) => object;
   cwd: string;
+  pkg: IPkg;
   registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
   webpackConfig: object;
   debug: (msg: any) => void;
@@ -28,11 +33,13 @@ class Docz {
   private doczPath: string;
   private rcPath: string;
   private distDir: string;
+  private api: IApi;
 
   constructor(api: IApi) {
     this.doczPath = resolveBin('docz', { executable: 'docz' });
     this.rcPath = path.join(__dirname, 'doczrc.js');
     this.distDir = path.join(api.cwd, '.docz/dist');
+    this.api = api;
   }
 
   public dev(opts: IOpts) {
@@ -48,7 +55,7 @@ class Docz {
   public build(opts: IOpts) {
     const options = this.getOptions(opts, {
       config: this.rcPath,
-      base: '.',
+      base: `/${this.api.pkg.name}`,
     });
     const child = fork(this.doczPath, ['build', ...options, ...process.argv.slice(4)]);
 
