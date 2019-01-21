@@ -1,0 +1,78 @@
+---
+name: bundle 配置
+route: /api/bundle
+menu: API
+---
+# bundle 配置
+
+## 打包方式
+* babel 编译, 不处理代码, 会按文件结构编译, 可通过 `babel-plugin-import` 支持按需加载.
+* rollup 推荐默认, 最新的打包方式, 支持 tree shaking, 打包产物较小, 不需要额外插件也支持按需加载.
+
+## 示例
+```js
+export default {
+  plugins: [
+    ['umi-plugin-library', {
+        /** bundle 配置 */
+        entry: 'src/index.js',
+        external: ['react', 'react-dome', 'antd'],
+    }],
+  ],
+}
+```
+
+## 参数定义
+```typescript
+interface IOptions {
+  /** 入口 */
+  entry?: string;
+
+  /** 是否开启 cssModules */
+  cssModules?: boolean;
+  /** 额外的 babel 插件 */
+  extraBabelPlugins?: BabelOpt[];
+  /** 额外的 babel preset */
+  extraBabelPresets?: BabelOpt[];
+  /** 额外的 postcss 插件 */
+  extraPostCSSPlugins?: any[];
+  /** 如果报 named exports 错 */
+  namedExports?: {
+    [prop: string]: string;
+  };
+
+  /** es module 包配置 */
+  esm?: {
+    /** 打包类型，默认 rollup */
+    type: 'rollup' | 'babel';
+    /** 产物文件名，默认从 package.json 拿 */
+    file?: string;
+  } | false;
+
+  /** commonjs 包配置 */
+  cjs?: {
+    type: 'rollup' | 'babel';
+    file?: string;
+  } | false;
+  
+  /** umd 包配置 */
+  umd?: {
+    /** external 包的全局变量名 */
+    globals?: {
+      /** 'react': 'React' */
+      [prop: string]: string;
+    };
+    /** 作为 umd 包在 window 对象里的变量名 */
+    name?: string;
+    file?: string;
+  } | false;
+
+  /** 打包需要被 external 的包，默认 react, react-dom, antd */
+  external?: string[];
+
+  /** @babel/preset-env，默认 ie 11 */
+  targets?: string | string[] | {
+    [prop: string]: string;
+  };
+}
+```

@@ -1,17 +1,44 @@
-/**
- * docz config file, do not use ts
- */
-import { css } from 'docz-plugin-css';
-import merge from 'webpack-merge';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import deepmerge from 'deepmerge';
+---
+name: doc 配置
+route: /api/doc
+menu: API
+---
+# doc 配置
 
-function readFile(name) {
-  const config = readFileSync(join(__dirname, `${name}.json`), 'utf8');
-  return JSON.parse(config);
+## 什么是 docz?
+docz 是一个基于 mdx 的文档工具, 我们的文档功能基于其开发, 详情可见 [docz](https://github.com/pedronauck/docz)
+
+## 示例
+```js
+export default {
+  plugins: [
+    ['umi-plugin-library', {
+        /** doc 配置 */
+        doc: {
+            title: 'Umi 组件开发文档',
+            theme: 'docz-theme-default'
+        },
+    }],
+  ],
 }
+```
 
+## title
+* Type: `string`
+* Default: `''`
+
+标题
+
+## theme
+* Type: `string`
+* Default: `'docz-theme-default'`
+
+主题, 另外还有一个 `docz-theme-antd` 不成熟, 建设中.
+
+## themeConfig
+* Type: `object`
+* Default: 如下, 可按结构覆盖
+```js
 const defaultThemeConfig = {
   /**
    * Mode
@@ -137,37 +164,5 @@ const defaultThemeConfig = {
     },
   }
 }
+```
 
-const customOpions = readFile('docOpts');
-const { themeConfig: customThemeConfig = {}} = customOpions;
-
-// use umi runtime webpack config
-export default {
-  modifyBabelRc: (babelrc) => {
-    const { babel } = readFile('afWebpack');
-    return merge(babelrc, babel);
-  },
-  modifyBundlerConfig: (config) => {
-    const { resolve } = readFile('webpack');
-
-    // 依赖可能会被 hoist 到这里
-    config.resolve.modules.push(join(__dirname, '../node_modules'));
-    config.resolveLoader.modules.push(join(__dirname, '../node_modules'));
-
-    return merge({ resolve }, config);
-  },
-  plugins: [
-    css({
-      cssmodules: true,
-      loaderOpts: {
-        javascriptEnabled: true,
-      },
-      preprocessor: 'less',
-    }),
-    css({
-      preprocessor: 'postcss',
-      cssmodules: true,
-  }),
-  ],
-  themeConfig: deepmerge(defaultThemeConfig, customThemeConfig)
-};

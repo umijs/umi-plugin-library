@@ -1,4 +1,3 @@
-declare module 'webpack-merge';
 declare module 'resolve-bin';
 declare module 'rollup-plugin-commonjs';
 declare module 'rollup-plugin-node-resolve';
