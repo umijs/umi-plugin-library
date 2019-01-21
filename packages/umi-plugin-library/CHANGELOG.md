@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-alpha.18](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.17...umi-plugin-library@1.0.1-alpha.18) (2019-01-21)
+
+**Note:** Version bump only for package umi-plugin-library
+
+
+
+
+
 ## [1.0.1-alpha.17](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.16...umi-plugin-library@1.0.1-alpha.17) (2019-01-18)
 
 **Note:** Version bump only for package umi-plugin-library
