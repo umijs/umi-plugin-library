@@ -3,7 +3,10 @@ export default {
     [
       'umi-plugin-library', {
         doc: {
-          files: 'docs/**/*.mdx'
+          title: "Umi 组件开发工具",
+          base: "/umi-plugin-library",
+          files: "docs/**/*.mdx",
+          hashRouter: true
         }
       }
     ]
