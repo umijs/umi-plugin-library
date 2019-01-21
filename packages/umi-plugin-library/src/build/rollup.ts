@@ -141,7 +141,7 @@ export default class Rollup {
             ...namedExports,
           },
         }),
-        ...(process.env.AUTO_NAMED_EXPORTS === 'none' ? [autoNamedExports()] : []),
+        ...(process.env.AUTO_NAMED_EXPORTS !== 'none' ? [autoNamedExports()] : []),
       ],
       onwarn: (warning: RollupWarning) => {
         if (warning.code === 'THIS_IS_UNDEFINED') {
