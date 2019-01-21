@@ -38,6 +38,7 @@ export interface IApi {
     warn: Log;
     success: Log;
     error: Log;
+    info: Log;
   };
 }
 
