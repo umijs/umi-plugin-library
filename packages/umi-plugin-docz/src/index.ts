@@ -20,6 +20,8 @@ export interface IPkg {
   name: string;
 }
 
+export type Log = (msg: string) => void;
+
 export interface IApi {
   applyPlugins: (name: string, options: object) => object;
   cwd: string;
@@ -27,6 +29,12 @@ export interface IApi {
   registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
   webpackConfig: object;
   debug: (msg: any) => void;
+  log: {
+    warn: Log;
+    success: Log;
+    error: Log;
+    info: Log;
+  };
 }
 
 class Docz {
@@ -63,9 +71,10 @@ class Docz {
   }
 
   public deploy() {
+    this.api.log.info('Publishing, it will take some time depending on your network');
     ghpages.publish(this.distDir, () => {
       // tslint:disable-next-line
-      console.log('publish done');
+      this.api.log.success('publish done');
     });
   }
 
