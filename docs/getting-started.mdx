@@ -1,0 +1,102 @@
+---
+name: 快速开始
+route: /getting-started
+order: 98
+---
+# 快速开始
+> 如果你是内网用户, 请使用 [bigfish 脚手架](https://bigfish.alipay.com/) 
+
+## 脚手架
+> 脚手架提供一个最小的可运行实例
+
+### 安装
+```bash
+# 创建目录
+$ mkdir my-lib && cd my-lib
+
+# 初始化脚手架, 选择 library
+$ yarn create umi
+
+# 安装依赖
+$ yarn install
+```
+
+### 目录结构
+```bash
+├── .gitignore
+├── .umirc.js       # umi 配置文件
+├── LICENSE
+├── README.md
+├── package.json
+└── src
+    ├── index.css
+    ├── index.js    # 组件
+    └── index.mdx   # 文档
+```
+
+### 运行
+```bash
+$ yarn run dev
+```
+
+import run from './static/run-screen.png'
+
+<img src={run} width="600" alt="运行图" />
+
+> tips: 这个截图是通过 img 标签直接插入文档的
+
+### 打包
+```bash
+$ yarn run build
+✔  success   [my-lib] esm: dist/my-lib.esm.js               # esm 包
+✔  success   [my-lib] umd: dist/my-lib.umd.development.js   # umd 未压缩包
+✔  success   [my-lib] cjs: dist/my-lib.js                   # cjs 包
+✔  success   [my-lib] umd: dist/my-lib.umd.js               # umd 包
+✨  Done in 5.34s.
+```
+
+
+## 在现有项目中集成
+
+### 安装插件
+
+```bash
+yarn add umi-plugin-library --save-dev
+```
+
+### 修改配置 .umirc.js
+```js
+export default {
+  plugins: [
+    'umi-plugin-library',
+  ],
+}
+```
+
+### 添加对应的 scripts
+```json
+"scripts": {
+  "dev": "umi doc dev",
+  "build": "umi lib build"
+}
+```
+
+### 创建一个 hello.mdx
+```mdx
+---
+name: Hello World
+path: /hello
+---
+
+# Hello World
+```
+
+### 运行
+```bash
+$ yarn run dev
+```
+
+import runHello from './static/run-screen-hello.png'
+
+<img src={runHello} width="600" alt="运行图" />
+
