@@ -2,6 +2,7 @@
 name: bundle 配置
 route: /api/bundle
 menu: API
+order: 8
 ---
 # bundle 配置
 
@@ -54,7 +55,7 @@ interface IOptions {
     type: 'rollup' | 'babel';
     file?: string;
   } | false;
-  
+
   /** umd 包配置 */
   umd?: {
     /** external 包的全局变量名 */

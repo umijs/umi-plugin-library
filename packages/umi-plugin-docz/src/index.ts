@@ -74,7 +74,7 @@ class Docz {
     this.api.log.info('Publishing, it will take some time depending on your network');
     ghpages.publish(this.distDir, () => {
       // tslint:disable-next-line
-      this.api.log.success('publish done');
+      this.api.log.success('Publish done');
     });
   }
 
