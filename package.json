@@ -5,9 +5,7 @@
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged",
     "dev": "umi doc dev",
-    "build:doc": "umi doc build",
-    "deploy:doc": "umi doc deploy",
-    "publish:doc": "yarn run build:doc && yarn run deploy:doc"
+    "publish:doc": "umi doc build && umi doc deploy"
   },
   "lint-staged": {
     "*.ts": [
