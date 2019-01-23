@@ -58,9 +58,14 @@ export interface IUmd {
   file?: string;
 }
 
+export interface ICssModules {
+  camelCase?: boolean;
+  globalModulePaths?: RegExp[];
+}
+
 export interface IBundleOptions {
   entry?: string;
-  cssModules?: boolean;
+  cssModules?: boolean | ICssModules;
   extraBabelPlugins?: BabelOpt[];
   extraBabelPresets?: BabelOpt[];
   extraPostCSSPlugins?: any[];
