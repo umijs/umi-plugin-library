@@ -134,6 +134,9 @@ export default class Rollup {
           return;
         }
         debug(warning);
+        if (warning.code === 'UNRESOLVED_IMPORT') {
+          this.api.log.warn(warning.message);
+        }
       },
       external: external.concat(['react', 'react-dom', 'antd']),
     };
