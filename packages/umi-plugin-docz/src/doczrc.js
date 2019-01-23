@@ -139,7 +139,25 @@ const defaultThemeConfig = {
 }
 
 const customOpions = readFile('docOpts');
-const { themeConfig: customThemeConfig = {}} = customOpions;
+const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, camelCase } = customOpions;
+
+const cssOpts = {
+  camelCase
+};
+
+// external js and css
+const htmlContext = {
+  favicon,
+  head: {
+    links: style.map(item => ({
+      rel: 'stylesheet',
+      href: item
+    })),
+    scripts: script.map(item => ({
+      src: item
+    }))
+  }
+}
 
 // use umi runtime webpack config
 export default {
@@ -177,6 +195,7 @@ export default {
       loaderOpts: {
         javascriptEnabled: true,
       },
+      cssOpts
     }),
     css({
       preprocessor: 'postcss',
@@ -190,8 +209,10 @@ export default {
       cssmodules: true,
       ruleOpts: {
         exclude: /global\.css$/
-      }
+      },
+      cssOpts
   }),
   ],
-  themeConfig: deepmerge(defaultThemeConfig, customThemeConfig)
+  themeConfig: deepmerge(defaultThemeConfig, customThemeConfig),
+  htmlContext
 };
