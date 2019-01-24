@@ -70,11 +70,9 @@ export default class Rollup {
     const { debug, webpackConfig = { resolve: { alias: {} } } }: IApi = this.api;
     const {
       entry: input = 'src/index.js',
-      cssModules = true,
       extraBabelPlugins = [],
       extraBabelPresets = [],
       namedExports,
-      extraPostCSSPlugins = [],
       targets = {
         ie: 11,
       },
@@ -92,19 +90,7 @@ export default class Rollup {
           ...webpackAlias,
           resolve: ['.js', '/index.js'],
         }),
-        postcss({
-          modules: cssModules,
-          use: [
-            [
-              'less',
-              {
-                plugins: [new NpmImport({ prefix: '~' })],
-                javascriptEnabled: true,
-              },
-            ],
-          ],
-          plugins: [autoprefixer, ...extraPostCSSPlugins],
-        }),
+        this.pluinPostcss(options),
         babel({
           runtimeHelpers: true,
           presets: [
@@ -148,6 +134,9 @@ export default class Rollup {
           return;
         }
         debug(warning);
+        if (warning.code === 'UNRESOLVED_IMPORT') {
+          this.api.log.warn(warning.message);
+        }
       },
       external: external.concat(['react', 'react-dom', 'antd']),
     };
@@ -201,5 +190,30 @@ export default class Rollup {
         result[newKey] = webpackAlias[key];
       });
     return result;
+  }
+
+  private pluinPostcss(options: IBundleOptions) {
+    const { extraPostCSSPlugins = [] } = options;
+    let cssModules = options.cssModules;
+    if (cssModules !== false) {
+      cssModules = {
+        ...(typeof cssModules === 'object' && cssModules),
+        globalModulePaths: [/global\.less$/, /global\.css$/],
+      };
+    }
+
+    return postcss({
+      modules: cssModules,
+      use: [
+        [
+          'less',
+          {
+            plugins: [new NpmImport({ prefix: '~' })],
+            javascriptEnabled: true,
+          },
+        ],
+      ],
+      plugins: [autoprefixer, ...extraPostCSSPlugins],
+    });
   }
 }
