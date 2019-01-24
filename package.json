@@ -5,7 +5,8 @@
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged",
     "dev": "umi doc dev",
-    "publish:doc": "umi doc build && umi doc deploy"
+    "publish:doc": "umi doc build && umi doc deploy",
+    "pub": "lerna clean -y && lerna bootstrap && lerna publish"
   },
   "lint-staged": {
     "*.ts": [
