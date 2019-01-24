@@ -58,9 +58,14 @@ export interface IUmd {
   file?: string;
 }
 
+export interface ICssModules {
+  camelCase?: boolean;
+  globalModulePaths?: RegExp[];
+}
+
 export interface IBundleOptions {
   entry?: string;
-  cssModules?: boolean;
+  cssModules?: boolean | ICssModules;
   extraBabelPlugins?: BabelOpt[];
   extraBabelPresets?: BabelOpt[];
   extraPostCSSPlugins?: any[];
@@ -83,7 +88,10 @@ export interface IStringObject {
 
 export default function(api: IApi, opts: IOpts = {}) {
   // register docz plugin
-  doczPlugin(api, opts.doc);
+  doczPlugin(api, {
+    ...opts.doc,
+    camelCase: typeof opts.cssModules === 'object' && opts.cssModules.camelCase,
+  });
   api.registerCommand(
     'lib',
     {
