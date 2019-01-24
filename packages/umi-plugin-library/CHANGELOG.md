@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1...umi-plugin-library@1.0.2) (2019-01-24)
+
+
+### Features
+
+* support config global cssmodules ([#62](https://github.com/umijs/umi-plugin-library/issues/62)) ([fa81311](https://github.com/umijs/umi-plugin-library/commit/fa81311)), closes [#53](https://github.com/umijs/umi-plugin-library/issues/53)
+
+
+
+
+
 ## [1.0.1](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.1-alpha.18...umi-plugin-library@1.0.1) (2019-01-21)
 
 **Note:** Version bump only for package umi-plugin-library
