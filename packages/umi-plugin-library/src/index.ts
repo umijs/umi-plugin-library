@@ -80,6 +80,11 @@ export interface IBundleOptions {
         [prop: string]: string;
       };
   external?: string[];
+  typescript?: boolean | object;
+  copy?: {
+    files: string[];
+    dest: string;
+  };
 }
 
 export interface IStringObject {
@@ -91,6 +96,7 @@ export default function(api: IApi, opts: IOpts = {}) {
   doczPlugin(api, {
     ...opts.doc,
     camelCase: typeof opts.cssModules === 'object' && opts.cssModules.camelCase,
+    typescript: opts.typescript,
   });
   api.registerCommand(
     'lib',

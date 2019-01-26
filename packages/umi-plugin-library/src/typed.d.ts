@@ -14,3 +14,4 @@ declare module 'glob';
 declare module 'rimraf';
 declare module 'rollup-plugin-terser';
 declare module 'rollup-plugin-alias';
+declare module 'rollup-plugin-cpy';

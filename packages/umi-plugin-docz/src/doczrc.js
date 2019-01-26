@@ -139,7 +139,7 @@ const defaultThemeConfig = {
 }
 
 const customOpions = readFile('docOpts');
-const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, camelCase } = customOpions;
+const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, camelCase, ...rest } = customOpions;
 
 const cssOpts = {
   camelCase
@@ -161,6 +161,7 @@ const htmlContext = {
 
 // use umi runtime webpack config
 export default {
+  ...rest,
   modifyBabelRc: (babelrc) => {
     const { babel } = readFile('afWebpack');
     return merge(babelrc, babel);

@@ -49,11 +49,11 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-terser": "^4.0.0",
-    "umi-plugin-docz": "^1.0.2"
+    "rollup-plugin-typescript2": "^0.18.1",
+    "umi-plugin-docz": "^1.0.2",
+    "rollup-plugin-cpy": "^1.1.0"
   },
   "devDependencies": {
-    "debug": "^4.1.0",
-    "rollup-plugin-cpy": "^1.1.0",
-    "rollup-plugin-typescript2": "^0.18.1"
+    "debug": "^4.1.0"
   }
 }
