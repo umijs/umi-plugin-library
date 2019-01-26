@@ -85,6 +85,11 @@ export interface IBundleOptions {
     files: string[];
     dest: string;
   };
+  treeshake?: {
+    /** If false, assume reading a property of an object never has side-effects. */
+    propertyReadSideEffects: boolean;
+    pureExternalModules: boolean;
+  };
 }
 
 export interface IStringObject {

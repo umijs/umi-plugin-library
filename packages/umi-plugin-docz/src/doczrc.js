@@ -30,13 +30,6 @@ const defaultThemeConfig = {
    */
   codemirrorTheme: 'docz-light',
   /**
-   * Logo
-   */
-  // logo: {
-  //   src: `https://avatars2.githubusercontent.com/u/33895495?s=48&v=4`,
-  //   width: 48,
-  // },
-  /**
    * Radius
    */
   radii: '4px',

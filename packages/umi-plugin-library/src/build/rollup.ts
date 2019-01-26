@@ -73,7 +73,16 @@ export default class Rollup {
 
   private getOpts(options: IBundleOptions, pkg: IPkg, cwd: string) {
     const { debug, webpackConfig = { resolve: { alias: {} } } }: IApi = this.api;
-    const { entry: input = 'src/index', cjs, esm, umd, external = [], typescript, copy } = options;
+    const {
+      entry: input = 'src/index',
+      cjs,
+      esm,
+      umd,
+      external = [],
+      typescript,
+      copy,
+      treeshake = { propertyReadSideEffects: false },
+    } = options;
     const webpackAlias = this.transformAlias(webpackConfig.resolve.alias);
     this.inputOptions = {
       input: join(cwd, input),
@@ -109,6 +118,7 @@ export default class Rollup {
             {
               format: 'cjs',
               file: pkg.main || (cjs && cjs.file) || 'dist/index.js',
+              treeshake,
             },
           ]
         : []),
@@ -117,16 +127,20 @@ export default class Rollup {
             {
               format: 'esm',
               file: pkg.module || (esm && esm.file) || 'dist/index.esm.js',
+              treeshake,
             },
           ]
         : []),
       ...(umd !== false
-        ? [this.getUmdOptions(pkg, umd, true), this.getUmdOptions(pkg, umd, false)]
+        ? [
+            this.getUmdOptions(pkg, umd, treeshake, true),
+            this.getUmdOptions(pkg, umd, treeshake, false),
+          ]
         : []),
     ];
   }
 
-  private getUmdOptions(pkg: IPkg, umd: IUmd | undefined, development: boolean) {
+  private getUmdOptions(pkg: IPkg, umd: IUmd | undefined, treeshake: object, development: boolean) {
     let file = pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js';
     if (development) {
       const filename = basename(file, '.js');
@@ -137,6 +151,7 @@ export default class Rollup {
       file,
       globals: umd && umd.globals,
       name: (umd && umd.name) || camelCase(basename(pkg.name)),
+      treeshake,
       development,
     };
   }
