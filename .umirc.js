@@ -3,7 +3,7 @@ const icon = `https://avatars2.githubusercontent.com/u/33895495?s=48&v=4`;
 export default {
   plugins: [
     [
-      'umi-plugin-library-test', {
+      'umi-plugin-library', {
         typescript: true,
         /** this repo no need umd package*/
         umd: false,

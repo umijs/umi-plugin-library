@@ -100,7 +100,7 @@ export default function(api: IApi, opts: IOpts = {}) {
   // register docz plugin
   doczPlugin(api, {
     ...opts.doc,
-    camelCase: typeof opts.cssModules === 'object' && opts.cssModules.camelCase,
+    cssModules: opts.cssModules,
     typescript: opts.typescript,
   });
   api.registerCommand(

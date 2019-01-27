@@ -174,7 +174,7 @@ export default class Rollup {
     if (cssModules !== false) {
       cssModules = {
         ...(typeof cssModules === 'object' && cssModules),
-        globalModulePaths: [/global\.less$/, /global\.css$/],
+        globalModulePaths: [/global\.less$/, /global\.css$/, /node_modules/],
       };
     }
 
