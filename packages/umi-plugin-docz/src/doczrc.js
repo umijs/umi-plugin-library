@@ -64,7 +64,7 @@ export default {
     }),
     css({
       preprocessor: 'less',
-      cssmodules: true,
+      cssmodules: !!cssModules,
       ruleOpts: {
         exclude: [/global\.less$/, /node_modules/]
       },
@@ -82,7 +82,7 @@ export default {
     }),
     css({
       preprocessor: 'postcss',
-      cssmodules: true,
+      cssmodules: !!cssModules,
       ruleOpts: {
         exclude: [/global\.css$/, /node_modules/]
       },
