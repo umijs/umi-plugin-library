@@ -92,6 +92,7 @@ export interface IBundleOptions {
     propertyReadSideEffects: boolean;
     pureExternalModules: boolean;
   };
+  sourcemap?: boolean;
 }
 
 export interface IStringObject {

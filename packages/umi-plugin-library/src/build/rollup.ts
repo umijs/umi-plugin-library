@@ -99,6 +99,7 @@ export default class Rollup {
       typescript,
       copy,
       treeshake = { propertyReadSideEffects: false },
+      sourcemap = false,
     } = options;
     const webpackAlias = this.transformAlias(webpackConfig.resolve.alias);
     this.inputOptions = {
@@ -136,6 +137,7 @@ export default class Rollup {
               format: 'cjs',
               file: pkg.main || (cjs && cjs.file) || 'dist/index.js',
               treeshake,
+              sourcemap,
             },
           ]
         : []),
@@ -145,19 +147,26 @@ export default class Rollup {
               format: 'esm',
               file: pkg.module || (esm && esm.file) || 'dist/index.esm.js',
               treeshake,
+              sourcemap,
             },
           ]
         : []),
       ...(umd !== false
         ? [
-            this.getUmdOptions(pkg, umd, treeshake, true),
-            this.getUmdOptions(pkg, umd, treeshake, false),
+            this.getUmdOptions(pkg, umd, treeshake, sourcemap, true),
+            this.getUmdOptions(pkg, umd, treeshake, sourcemap, false),
           ]
         : []),
     ];
   }
 
-  private getUmdOptions(pkg: IPkg, umd: IUmd | undefined, treeshake: object, development: boolean) {
+  private getUmdOptions(
+    pkg: IPkg,
+    umd: IUmd | undefined,
+    treeshake: object,
+    sourcemap: boolean,
+    development: boolean
+  ) {
     let file = pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js';
     if (development) {
       const filename = basename(file, '.js');
@@ -169,6 +178,7 @@ export default class Rollup {
       globals: umd && umd.globals,
       name: (umd && umd.name) || camelCase(basename(pkg.name)),
       treeshake,
+      sourcemap,
       development,
     };
   }
@@ -211,14 +221,20 @@ export default class Rollup {
   }
 
   private pluginTypescript(options: IBundleOptions, cwd: string) {
-    const { typescript } = options;
+    const { typescript, sourcemap = false } = options;
 
     return typescriptPlugin({
       rollupCommonJSResolveHack: true,
       tsconfig: join(cwd, 'tsconfig.json'),
-      tsconfigOverride: {
+      tsconfigDefaults: {
         compilerOptions: {
           declaration: true,
+          sourceMap: sourcemap,
+        },
+      },
+      tsconfigOverride: {
+        compilerOptions: {
+          target: 'esnext',
         },
       },
       ...(typeof typescript === 'object' && typescript),
