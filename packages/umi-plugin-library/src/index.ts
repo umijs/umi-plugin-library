@@ -13,6 +13,7 @@ export interface IArgs {
     length: number;
     [index: number]: Params;
   };
+  watch?: boolean;
 }
 
 export interface IPkg {
@@ -64,6 +65,7 @@ export interface ICssModules {
 }
 
 export interface IBundleOptions {
+  watch?: boolean;
   entry?: string;
   cssModules?: boolean | ICssModules;
   extraBabelPlugins?: BabelOpt[];

@@ -1,4 +1,4 @@
-import { rollup, RollupOptions, OutputOptions, RollupWarning, Plugin } from 'rollup';
+import { rollup, watch, RollupOptions, OutputOptions, RollupWarning, Plugin } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
@@ -58,13 +58,30 @@ export default class Rollup {
             plugins: [...this.inputOptions.plugins, ...(item.development ? [] : [terser()])],
           };
         }
-        const bundler = await rollup(inputOptions);
-        const info = `${item.format}: ${item.file}`;
-        item.file = join(cwd, item.file);
-        await bundler.write(item);
-        this.api.log.success(`[${pkg.name}] ${info}`);
+
+        if (options.watch) {
+          const watcher = watch([
+            {
+              ...inputOptions,
+              output: item,
+              watch: { exclude: ['node_modules/**'], include: ['doczrc.js'] },
+            },
+          ]);
+          watcher.on('event', event => {
+            if (event.code === 'FATAL' || event.code === 'ERROR') {
+              this.api.log.error(event.error.message);
+            } else if (event.code === 'END') {
+              this.api.log.info('file changed');
+            }
+          });
+        } else {
+          const bundler = await rollup(inputOptions);
+          const info = `${item.format}: ${item.file}`;
+          item.file = join(cwd, item.file);
+          await bundler.write(item);
+          this.api.log.success(`[${pkg.name}] ${info}`);
+        }
       } catch (error) {
-        // tslint:disable-next-line
         this.api.log.error(error.message);
         this.api.debug(error);
       }
