@@ -1,13 +1,11 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "NODE_ENV=development rollup -c -w",
-    "build": "NODE_ENV=production rollup -c",
-    "prepublishOnly": "rm -rf ./dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -52,8 +50,5 @@
     "rollup-plugin-typescript2": "^0.18.1",
     "umi-plugin-docz": "^1.0.2",
     "rollup-plugin-cpy": "^1.1.0"
-  },
-  "devDependencies": {
-    "debug": "^4.1.0"
   }
 }

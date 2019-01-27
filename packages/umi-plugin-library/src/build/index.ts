@@ -32,7 +32,12 @@ class Bundler {
       if (existsSync(pkgPath)) {
         const pkg = readFileSync(pkgPath, 'utf-8');
         this.clean(cwd);
-        this.bundlerRollup.build(opts, JSON.parse(pkg), cwd);
+
+        // specify package runtime configure.
+        const rcPath = join(cwd, '.libraryrc.js');
+        const rc = existsSync(rcPath) ? require(rcPath) : {};
+
+        this.bundlerRollup.build({ ...opts, ...rc }, JSON.parse(pkg), cwd);
       } else {
         this.api.log.warn(`package.json not found in packages/${folder}`);
       }

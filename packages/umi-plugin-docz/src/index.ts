@@ -83,7 +83,7 @@ export default function(api: IApi, opts: IOpts = {}) {
       writeFile('docOpts', {
         ...opts,
         base: opts.base || `/${api.pkg.name}`,
-        port: opts.port || '8006',
+        port: opts.port || '8001',
       });
 
       const subCommand = args._[0];
