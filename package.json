@@ -4,10 +4,11 @@
     "bootstrap": "lerna bootstrap",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged",
-    "dev": "umi doc dev",
-    "publish:doc": "umi doc build && umi doc deploy",
+    "dev:doc": "umi doc dev",
+    "pub:doc": "umi doc build && umi doc deploy",
+    "dev": "umi lib build --watch",
     "build": "umi lib build",
-    "pub": "lerna clean -y && lerna bootstrap && umi lib build && lerna publish"
+    "pub": "lerna clean -y && lerna bootstrap && npm run build && lerna publish"
   },
   "lint-staged": {
     "*.ts": [
