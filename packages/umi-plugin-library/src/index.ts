@@ -1,5 +1,6 @@
 import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
 import Build from './build';
+import { useTypescript } from './utils';
 
 export type Params = 'build' | 'dev' | 'deploy';
 
@@ -13,6 +14,7 @@ export interface IArgs {
     length: number;
     [index: number]: Params;
   };
+  watch?: boolean;
 }
 
 export interface IPkg {
@@ -64,6 +66,7 @@ export interface ICssModules {
 }
 
 export interface IBundleOptions {
+  watch?: boolean;
   entry?: string;
   cssModules?: boolean | ICssModules;
   extraBabelPlugins?: BabelOpt[];
@@ -80,6 +83,17 @@ export interface IBundleOptions {
         [prop: string]: string;
       };
   external?: string[];
+  typescript?: boolean | object;
+  copy?: {
+    files: string[];
+    dest: string;
+  };
+  treeshake?: {
+    /** If false, assume reading a property of an object never has side-effects. */
+    propertyReadSideEffects: boolean;
+    pureExternalModules: boolean;
+  };
+  sourcemap?: boolean;
 }
 
 export interface IStringObject {
@@ -87,10 +101,13 @@ export interface IStringObject {
 }
 
 export default function(api: IApi, opts: IOpts = {}) {
+  // use typescript?
+  opts.typescript = opts.typescript !== undefined ? opts.typescript : useTypescript(api.cwd);
   // register docz plugin
   doczPlugin(api, {
     ...opts.doc,
-    camelCase: typeof opts.cssModules === 'object' && opts.cssModules.camelCase,
+    cssModules: opts.cssModules,
+    typescript: opts.typescript,
   });
   api.registerCommand(
     'lib',

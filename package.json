@@ -4,9 +4,11 @@
     "bootstrap": "lerna bootstrap",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged",
-    "dev": "umi doc dev",
-    "publish:doc": "umi doc build && umi doc deploy",
-    "pub": "lerna clean -y && lerna bootstrap && lerna publish"
+    "dev:doc": "umi doc dev",
+    "pub:doc": "umi doc build && umi doc deploy",
+    "dev": "umi lib build --watch",
+    "build": "umi lib build",
+    "pub": "lerna clean -y && lerna bootstrap && npm run build && lerna publish"
   },
   "lint-staged": {
     "*.ts": [
@@ -26,6 +28,6 @@
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1",
     "umi": "^2.0.0",
-    "umi-plugin-library": "^1.0.1-alpha.17"
+    "umi-plugin-library": "^1.0.3"
   }
 }

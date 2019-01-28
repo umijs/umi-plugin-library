@@ -4,10 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "NODE_ENV=development rollup -c -w",
-    "build": "NODE_ENV=production rollup -c",
-    "prepublishOnly": "rm -rf ./dist && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -27,6 +25,7 @@
   "dependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/preset-env": "^7.2.3",
+    "@types/css-modules": "^1.0.0",
     "autoprefixer": "^9.4.3",
     "babel-merge": "^2.0.1",
     "babel-plugin-css-modules-transform": "^1.6.2",
@@ -44,16 +43,13 @@
     "rollup-plugin-auto-named-exports": "^1.0.0-beta.1",
     "rollup-plugin-babel": "^4.2.0",
     "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-cpy": "^1.1.0",
     "rollup-plugin-json": "^3.1.0",
     "rollup-plugin-node-resolve": "^4.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-terser": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.18.1",
     "umi-plugin-docz": "^1.0.2"
-  },
-  "devDependencies": {
-    "debug": "^4.1.0",
-    "rollup-plugin-cpy": "^1.1.0",
-    "rollup-plugin-typescript2": "^0.18.1"
   }
 }

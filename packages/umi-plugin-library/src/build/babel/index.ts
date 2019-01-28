@@ -25,23 +25,32 @@ export default class Babel {
     const copy = new Copyfile(this.input, this.cwd);
     if (cjs && cjs.type === 'babel') {
       const dir = 'lib';
-      await this.complie(dir, 'cjs');
+      await this.complie(dir, options, 'cjs');
       await copy.run(dir);
       this.api.log.success('complie cjs done');
     }
     if (esm && esm.type === 'babel') {
       const dir = 'es';
-      await this.complie(dir, 'esm');
+      await this.complie(dir, options, 'esm');
       await copy.run(dir);
       this.api.log.success('complie esm done');
     }
   }
 
-  private async complie(dir: string, type: buildType): Promise<boolean> {
+  private async complie(dir: string, options: IBundleOptions, type: buildType): Promise<boolean> {
+    const { watch = false, sourcemap = false } = options;
     return new Promise(resolve => {
       const child = fork(
         this.babel,
-        ['--config-file', this.babelRc, this.input, '--out-dir', dir],
+        [
+          '--config-file',
+          this.babelRc,
+          this.input,
+          '--out-dir',
+          dir,
+          ...(watch ? ['--watch'] : []),
+          ...(sourcemap ? ['--source-maps'] : []),
+        ],
         {
           env: {
             BABEL_ENV: type,

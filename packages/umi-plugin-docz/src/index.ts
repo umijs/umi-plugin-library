@@ -50,23 +50,8 @@ class Docz {
     this.api = api;
   }
 
-  public dev(opts: IOpts) {
-    const options = this.getOptions(opts, {
-      config: this.rcPath,
-      port: '8001',
-    });
-    const child = fork(this.doczPath, ['dev', ...options, ...process.argv.slice(4)]);
-
-    this.onEvent(child);
-  }
-
-  public build(opts: IOpts) {
-    const options = this.getOptions(opts, {
-      config: this.rcPath,
-      base: `/${this.api.pkg.name}`,
-    });
-    const child = fork(this.doczPath, ['build', ...options, ...process.argv.slice(4)]);
-
+  public devOrBuild(action: Params) {
+    const child = fork(this.doczPath, [action, '--config', this.rcPath, ...process.argv.slice(4)]);
     this.onEvent(child);
   }
 
@@ -76,23 +61,6 @@ class Docz {
       // tslint:disable-next-line
       this.api.log.success('Publish done');
     });
-  }
-
-  /**
-   * 组装 docz 配置, 后面考虑加个白名单
-   * @param opts 传入参数
-   * @param defaultOpts 默认参数
-   */
-  private getOptions(opts: IOpts = {}, defaultOpts: IOpts = {}) {
-    const mergedOpts = {
-      ...defaultOpts,
-      ...opts,
-    };
-    const options: any[] = [];
-    Object.keys(mergedOpts).forEach(key => {
-      options.push(`--${key}`, mergedOpts[key]);
-    });
-    return options;
   }
 
   private onEvent(child: ChildProcess) {
@@ -112,14 +80,16 @@ export default function(api: IApi, opts: IOpts = {}) {
     (args: IArgs) => {
       getWebpackConfig(api);
       // write doc options to file for further use
-      writeFile('docOpts', opts);
+      writeFile('docOpts', {
+        ...opts,
+        base: opts.base || `/${api.pkg.name}`,
+        port: opts.port || '8001',
+      });
 
       const subCommand = args._[0];
       const docz = new Docz(api);
-      if (subCommand === 'dev') {
-        docz.dev(opts);
-      } else if (subCommand === 'build') {
-        docz.build(opts);
+      if (subCommand === 'dev' || subCommand === 'build') {
+        docz.devOrBuild(subCommand);
       } else if (subCommand === 'deploy') {
         docz.deploy();
       }

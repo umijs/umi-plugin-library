@@ -1,4 +1,4 @@
-import { rollup, RollupOptions, OutputOptions, RollupWarning, Plugin } from 'rollup';
+import { rollup, watch, RollupOptions, OutputOptions, RollupWarning, Plugin } from 'rollup';
 import commonjs from 'rollup-plugin-commonjs';
 import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
@@ -9,11 +9,15 @@ import umiBabel from 'babel-preset-umi';
 import alias from 'rollup-plugin-alias';
 import autoNamedExports from 'rollup-plugin-auto-named-exports';
 import peerExternal from 'rollup-plugin-peer-deps-external';
+import typescriptPlugin from 'rollup-plugin-typescript2';
 import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
+import copyPlugin from 'rollup-plugin-cpy';
 import { IApi, IBundleOptions, IStringObject, IPkg, IUmd } from '..';
 import { join, basename } from 'path';
+
+const EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs'];
 
 export interface IInputOptions extends RollupOptions {
   external: string[];
@@ -54,14 +58,32 @@ export default class Rollup {
             plugins: [...this.inputOptions.plugins, ...(item.development ? [] : [terser()])],
           };
         }
-        const bundler = await rollup(inputOptions);
-        const info = `${item.format}: ${item.file}`;
-        item.file = join(cwd, item.file);
-        await bundler.write(item);
-        this.api.log.success(`[${pkg.name}] ${info}`);
+
+        if (options.watch) {
+          const watcher = watch([
+            {
+              ...inputOptions,
+              output: item,
+              watch: { exclude: ['node_modules/**'] },
+            },
+          ]);
+          watcher.on('event', event => {
+            if (event.code === 'FATAL' || event.code === 'ERROR') {
+              this.api.log.error(event.error.message);
+            } else if (event.code === 'END') {
+              this.api.log.info('file changed');
+            }
+          });
+        } else {
+          const bundler = await rollup(inputOptions);
+          const info = `${item.format}: ${item.file}`;
+          item.file = join(cwd, item.file);
+          await bundler.write(item);
+          this.api.log.success(`[${pkg.name}] ${info}`);
+        }
       } catch (error) {
-        // tslint:disable-next-line
-        console.error('bundle error', error);
+        this.api.log.error(error.message);
+        this.api.debug(error);
       }
     });
   }
@@ -69,17 +91,15 @@ export default class Rollup {
   private getOpts(options: IBundleOptions, pkg: IPkg, cwd: string) {
     const { debug, webpackConfig = { resolve: { alias: {} } } }: IApi = this.api;
     const {
-      entry: input = 'src/index.js',
-      extraBabelPlugins = [],
-      extraBabelPresets = [],
-      namedExports,
-      targets = {
-        ie: 11,
-      },
+      entry: input = 'src/index',
       cjs,
       esm,
       umd,
       external = [],
+      typescript,
+      copy,
+      treeshake = { propertyReadSideEffects: false },
+      sourcemap = false,
     } = options;
     const webpackAlias = this.transformAlias(webpackConfig.resolve.alias);
     this.inputOptions = {
@@ -91,43 +111,11 @@ export default class Rollup {
           resolve: ['.js', '/index.js'],
         }),
         this.pluinPostcss(options),
-        babel({
-          runtimeHelpers: true,
-          presets: [
-            ...extraBabelPresets,
-            [
-              require.resolve('@babel/preset-env'),
-              {
-                modules: false,
-                targets,
-              },
-            ],
-            require.resolve('@babel/preset-react'),
-          ],
-          plugins: [
-            ...extraBabelPlugins,
-            ...umiBabel().plugins,
-            [
-              require.resolve('babel-plugin-inline-import-data-uri'),
-              {
-                extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
-              },
-            ],
-          ],
-          exclude: /node_modules/,
-        }),
+        ...(typescript ? [this.pluginTypescript(options, cwd)] : []),
+        this.pluginBabel(options),
         json(),
-        resolve({
-          browser: true,
-        }),
-        commonjs({
-          include: /node_modules/,
-          namedExports: {
-            // autoNamedExports not supported module.
-            ...namedExports,
-          },
-        }),
-        ...(process.env.AUTO_NAMED_EXPORTS !== 'none' ? [autoNamedExports()] : []),
+        ...this.pluginsResolve(options),
+        ...(copy ? copyPlugin(copy) : []),
       ],
       onwarn: (warning: RollupWarning) => {
         if (warning.code === 'THIS_IS_UNDEFINED') {
@@ -147,7 +135,9 @@ export default class Rollup {
         ? [
             {
               format: 'cjs',
-              file: pkg.main || (cjs && cjs.file) || 'dist/index.js',
+              file: (cjs && cjs.file) || pkg.main || 'dist/index.js',
+              treeshake,
+              sourcemap,
             },
           ]
         : []),
@@ -155,18 +145,29 @@ export default class Rollup {
         ? [
             {
               format: 'esm',
-              file: pkg.module || (esm && esm.file) || 'dist/index.esm.js',
+              file: (esm && esm.file) || pkg.module || 'dist/index.esm.js',
+              treeshake,
+              sourcemap,
             },
           ]
         : []),
       ...(umd !== false
-        ? [this.getUmdOptions(pkg, umd, true), this.getUmdOptions(pkg, umd, false)]
+        ? [
+            this.getUmdOptions(pkg, umd, treeshake, sourcemap, true),
+            this.getUmdOptions(pkg, umd, treeshake, sourcemap, false),
+          ]
         : []),
     ];
   }
 
-  private getUmdOptions(pkg: IPkg, umd: IUmd | undefined, development: boolean) {
-    let file = pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js';
+  private getUmdOptions(
+    pkg: IPkg,
+    umd: IUmd | undefined,
+    treeshake: object,
+    sourcemap: boolean,
+    development: boolean
+  ) {
+    let file = (umd && umd.file) || pkg.unpkg || 'dist/index.umd.js';
     if (development) {
       const filename = basename(file, '.js');
       file = file.replace(filename, `${filename}.development`);
@@ -176,6 +177,8 @@ export default class Rollup {
       file,
       globals: umd && umd.globals,
       name: (umd && umd.name) || camelCase(basename(pkg.name)),
+      treeshake,
+      sourcemap,
       development,
     };
   }
@@ -198,7 +201,7 @@ export default class Rollup {
     if (cssModules !== false) {
       cssModules = {
         ...(typeof cssModules === 'object' && cssModules),
-        globalModulePaths: [/global\.less$/, /global\.css$/],
+        globalModulePaths: [/global\.less$/, /global\.css$/, /node_modules/],
       };
     }
 
@@ -215,5 +218,78 @@ export default class Rollup {
       ],
       plugins: [autoprefixer, ...extraPostCSSPlugins],
     });
+  }
+
+  private pluginTypescript(options: IBundleOptions, cwd: string) {
+    const { typescript, sourcemap = false } = options;
+
+    return typescriptPlugin({
+      rollupCommonJSResolveHack: true,
+      tsconfig: join(cwd, 'tsconfig.json'),
+      tsconfigDefaults: {
+        compilerOptions: {
+          declaration: true,
+          sourceMap: sourcemap,
+        },
+      },
+      tsconfigOverride: {
+        compilerOptions: {
+          target: 'esnext',
+        },
+      },
+      ...(typeof typescript === 'object' && typescript),
+    });
+  }
+
+  private pluginBabel(options: IBundleOptions) {
+    const { extraBabelPresets = [], extraBabelPlugins = [], targets = { ie: 11 } } = options;
+    return babel({
+      runtimeHelpers: true,
+      presets: [
+        ...extraBabelPresets,
+        [
+          require.resolve('@babel/preset-env'),
+          {
+            modules: false,
+            targets,
+          },
+        ],
+        require.resolve('@babel/preset-react'),
+      ],
+      plugins: [
+        ...extraBabelPlugins,
+        ...umiBabel().plugins,
+        [
+          require.resolve('babel-plugin-inline-import-data-uri'),
+          {
+            extensions: ['png', 'jpg', 'jpeg', 'gif', 'svg'],
+          },
+        ],
+      ],
+      exclude: /node_modules/,
+      extensions: EXTENSIONS,
+    });
+  }
+
+  private pluginsResolve(options: IBundleOptions) {
+    const { namedExports, targets = {} } = options;
+    return [
+      resolve({
+        jsnext: true,
+        module: true,
+        main: true,
+        preferBuiltins: true,
+        browser: !targets.hasOwnProperty('node'),
+        extensions: EXTENSIONS,
+      }),
+      commonjs({
+        include: /node_modules/,
+        namedExports: {
+          // autoNamedExports not supported module.
+          ...namedExports,
+        },
+      }),
+      ...(process.env.AUTO_NAMED_EXPORTS !== 'none' ? [autoNamedExports()] : []),
+    ];
   }
 }
