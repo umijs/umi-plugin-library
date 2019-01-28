@@ -34,6 +34,9 @@ const cssOpts = {
   camelCase: typeof cssModules === 'object' && cssModules.camelCase
 };
 
+// css modules ignore global.{less,css} and node_modules/**.{less,css}
+const styleConditions = (ext) => [new RegExp(`global\.${ext}$`), new RegExp(`node_modules\/.*\.${ext}$`)];
+
 // use umi runtime webpack config
 export default {
   ...rest,
@@ -56,7 +59,7 @@ export default {
       preprocessor: 'less',
       cssmodules: false,
       ruleOpts: {
-        test: [/global\.less$/, /node_modules/]
+        test: styleConditions('less')
       },
       loaderOpts: {
         javascriptEnabled: true,
@@ -64,9 +67,9 @@ export default {
     }),
     css({
       preprocessor: 'less',
-      cssmodules: !!cssModules,
+      cssmodules: cssModules !== false,
       ruleOpts: {
-        exclude: [/global\.less$/, /node_modules/]
+        exclude: styleConditions('less')
       },
       loaderOpts: {
         javascriptEnabled: true,
@@ -77,14 +80,14 @@ export default {
       preprocessor: 'postcss',
       cssmodules: false,
       ruleOpts: {
-        test: [/global\.css$/, /node_modules/]
+        test: styleConditions('css')
       },
     }),
     css({
       preprocessor: 'postcss',
-      cssmodules: !!cssModules,
+      cssmodules: cssModules !== false,
       ruleOpts: {
-        exclude: [/global\.css$/, /node_modules/]
+        exclude: styleConditions('css')
       },
       cssOpts
   }),

@@ -1,4 +1,4 @@
-export default defaultThemeConfig = {
+export default {
   /**
    * Mode
    */
