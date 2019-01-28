@@ -4,6 +4,7 @@ import Babel from './babel';
 import { readdirSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { IApi, IBundleOptions, IArgs } from '..';
+import { useTypescript } from '../utils';
 
 class Bundler {
   private bundlerRollup: Rollup;
@@ -34,16 +35,21 @@ class Bundler {
         this.clean(cwd);
 
         // specify package runtime configure.
-        const rcPath = join(cwd, '.libraryrc.js');
+        const rcPath = join(cwd, '.umirc.library.js');
         const rc = existsSync(rcPath) ? require(rcPath) : {};
 
-        this.bundlerRollup.build({ ...opts, ...rc }, JSON.parse(pkg), cwd);
+        const combinedRc = { ...opts, ...rc };
+        // avoid treat as ts package that use root tsconfig.json
+        combinedRc.typescript = rc.typescript !== undefined ? rc.typescript : useTypescript(cwd);
+
+        this.bundlerRollup.build(combinedRc, JSON.parse(pkg), cwd);
       } else {
         this.api.log.warn(`package.json not found in packages/${folder}`);
       }
     });
-
-    this.bundlerBabel.build(opts);
+    if ((opts.esm && opts.esm.type === 'babel') || (opts.cjs && opts.cjs.type === 'babel')) {
+      this.api.log.error(`not support use babel with lerna yet`);
+    }
   }
 
   private clean(cwd: string) {

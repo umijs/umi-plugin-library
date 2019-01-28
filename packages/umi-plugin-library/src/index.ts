@@ -1,5 +1,6 @@
 import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
 import Build from './build';
+import { useTypescript } from './utils';
 
 export type Params = 'build' | 'dev' | 'deploy';
 
@@ -100,6 +101,8 @@ export interface IStringObject {
 }
 
 export default function(api: IApi, opts: IOpts = {}) {
+  // use typescript?
+  opts.typescript = opts.typescript !== undefined ? opts.typescript : useTypescript(api.cwd);
   // register docz plugin
   doczPlugin(api, {
     ...opts.doc,

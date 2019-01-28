@@ -64,7 +64,7 @@ export default class Rollup {
             {
               ...inputOptions,
               output: item,
-              watch: { exclude: ['node_modules/**'], include: ['doczrc.js'] },
+              watch: { exclude: ['node_modules/**'] },
             },
           ]);
           watcher.on('event', event => {

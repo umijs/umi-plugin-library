@@ -4,7 +4,6 @@ export default {
   plugins: [
     [
       'umi-plugin-library', {
-        typescript: true,
         /** this repo no need umd package*/
         umd: false,
         doc: {

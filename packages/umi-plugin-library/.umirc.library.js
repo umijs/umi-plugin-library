@@ -5,5 +5,5 @@ module.exports = {
     files: [join(__dirname, 'src/build/babel/*.js')],
     dest: join(__dirname, 'dist')
   },
-  external: [ 'fs', 'path', 'child_process' ]
+  external: [ 'path', 'fs', 'child_process']
 }
