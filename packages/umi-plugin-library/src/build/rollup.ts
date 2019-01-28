@@ -135,7 +135,7 @@ export default class Rollup {
         ? [
             {
               format: 'cjs',
-              file: pkg.main || (cjs && cjs.file) || 'dist/index.js',
+              file: (cjs && cjs.file) || pkg.main || 'dist/index.js',
               treeshake,
               sourcemap,
             },
@@ -145,7 +145,7 @@ export default class Rollup {
         ? [
             {
               format: 'esm',
-              file: pkg.module || (esm && esm.file) || 'dist/index.esm.js',
+              file: (esm && esm.file) || pkg.module || 'dist/index.esm.js',
               treeshake,
               sourcemap,
             },
@@ -167,7 +167,7 @@ export default class Rollup {
     sourcemap: boolean,
     development: boolean
   ) {
-    let file = pkg.unpkg || (umd && umd.file) || 'dist/index.umd.js';
+    let file = (umd && umd.file) || pkg.unpkg || 'dist/index.umd.js';
     if (development) {
       const filename = basename(file, '.js');
       file = file.replace(filename, `${filename}.development`);
