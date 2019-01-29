@@ -1,6 +1,6 @@
 {
   "name": "docz-theme-antd",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "docz theme with antd",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -17,10 +17,10 @@
   "bugs": "https://github.com/umijs/umi-plugin-library/issues",
   "license": "MIT",
   "dependencies": {
-    "docz": "^0.13.7",
     "ant-design-pro": "^2.1.1",
     "antd": "^3.11.2",
     "bizcharts": "^3.4.1",
+    "docz": "^0.13.7",
     "docz-theme-default": "^0.13.7",
     "lodash": "^4.17.11",
     "rc-drawer-menu": "^1.1.0",
