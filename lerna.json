@@ -1,12 +1,20 @@
 {
+  "changelog": {
+    "labels": {
+      "enhancement": ":rocket: Enhancement",
+      "bug": ":bug: Bug Fix",
+      "documentation": ":book: Documentation"
+    },
+    "repo": "umijs/umi-plugin-library",
+    "cacheDir": ".changelog"
+  },
   "packages": [
     "packages/*"
   ],
   "command": {
     "publish": {
       "allowBranch": "master",
-      "conventionalCommits": true,
-      "message": "chore(release): publish %s"
+      "conventionalCommits": true
     }
   },
   "ignoreChanges": [

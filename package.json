@@ -2,13 +2,13 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "changelog": "lerna-changelog",
     "lint": "tslint -p tsconfig.json",
     "precommit": "lint-staged",
-    "dev:doc": "umi doc dev",
-    "pub:doc": "umi doc build && umi doc deploy",
-    "dev": "umi lib build --watch",
+    "doc:dev": "umi doc dev",
+    "doc:deploy": "umi doc build && umi doc deploy",
     "build": "umi lib build",
-    "pub": "lerna clean -y && lerna bootstrap && npm run build && lerna publish"
+    "publish": "npm run build && lerna publish"
   },
   "lint-staged": {
     "*.ts": [
@@ -18,12 +18,12 @@
     ]
   },
   "devDependencies": {
-    "lerna": "^3.8.0",
     "@types/node": "^10.12.11",
     "husky": "^0.14.3",
+    "lerna": "^3.8.0",
+    "lerna-changelog": "^0.8.2",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.3",
-    "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1",
