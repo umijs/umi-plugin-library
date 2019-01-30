@@ -1,16 +1,11 @@
-// reference antd
 {
   "compilerOptions": {
     "strictNullChecks": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "jsx": "preserve",
-    "declaration": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
-    "target": "es5",
-    "lib": ["dom", "es7"]
+    "noImplicitAny": true
   },
-  "exclude": ["node_modules", "lib", "es"]
+  "exclude": ["node_modules", "dist"]
 }
