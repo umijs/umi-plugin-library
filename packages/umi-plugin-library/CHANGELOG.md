@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.0...umi-plugin-library@1.1.1) (2019-01-30)
+
+
+### Bug Fixes
+
+* copyPlugin bug ([#73](https://github.com/umijs/umi-plugin-library/issues/73)) ([4f073c7](https://github.com/umijs/umi-plugin-library/commit/4f073c7))
+
+
+
+
+
 # [1.1.0](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.0.2...umi-plugin-library@1.1.0) (2019-01-29)
 
 
