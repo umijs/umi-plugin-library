@@ -115,7 +115,7 @@ export default class Rollup {
         this.pluginBabel(options),
         json(),
         ...this.pluginsResolve(options),
-        ...(copy ? copyPlugin(copy) : []),
+        ...(copy ? [copyPlugin(copy)] : []),
       ],
       onwarn: (warning: RollupWarning) => {
         if (warning.code === 'THIS_IS_UNDEFINED') {
