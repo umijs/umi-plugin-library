@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.1...umi-plugin-library@1.1.2) (2019-01-30)
+
+
+### Bug Fixes
+
+* remove bigfish alias compatible ([#74](https://github.com/umijs/umi-plugin-library/issues/74)) ([b45e33e](https://github.com/umijs/umi-plugin-library/commit/b45e33e))
+
+
+
+
+
 ## [1.1.1](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.0...umi-plugin-library@1.1.1) (2019-01-30)
 
 
