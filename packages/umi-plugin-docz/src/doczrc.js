@@ -50,6 +50,9 @@ export default {
     // 依赖可能会被 hoist 到这里
     config.resolve.modules.push(join(__dirname, '../node_modules'));
     config.resolveLoader.modules.push(join(__dirname, '../node_modules'));
+    // bigfish e2e test 存在依赖找不到问题
+    config.resolve.modules.push(join(__dirname, '../node_modules/docz/node_modules'));
+    config.resolveLoader.modules.push(join(__dirname, '../node_modules/docz/node_modules'));
 
     return merge({ resolve }, config);
   },
