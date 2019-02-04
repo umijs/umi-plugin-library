@@ -1,4 +1,4 @@
-# Umi-plugin-library
+# umi-plugin-library
 
 ## why
 
