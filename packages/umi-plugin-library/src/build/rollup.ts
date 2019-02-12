@@ -57,8 +57,8 @@ export default class Rollup {
             plugins: [...this.inputOptions.plugins, ...(item.development ? [] : [terser()])],
           };
         }
-
         if (options.watch) {
+          item.file = join(cwd, item.file);
           const watcher = watch([
             {
               ...inputOptions,

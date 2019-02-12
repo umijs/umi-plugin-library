@@ -28,6 +28,6 @@
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1",
     "umi": "^2.0.0",
-    "umi-plugin-library": "^1.0.3"
+    "umi-plugin-library": "^1.1.0"
   }
 }
