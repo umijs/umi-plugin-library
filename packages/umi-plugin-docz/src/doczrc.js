@@ -14,7 +14,16 @@ function readFile(name) {
 }
 
 const customOpions = readFile('docOpts');
-const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, cssModules, ...rest } = customOpions;
+const {
+  themeConfig: customThemeConfig = {},
+  style = [],
+  script = [],
+  favicon,
+  cssModules,
+  modifyBabelConfig,
+  modifyWebpackConfig,
+  plugins = [],
+  ...rest } = customOpions;
 
 // external js and css
 const htmlContext = {
@@ -41,22 +50,27 @@ const styleConditions = (ext) => [new RegExp(`global\.${ext}$`), new RegExp(`nod
 export default {
   ...rest,
   modifyBabelRc: (babelrc) => {
+    if(modifyBabelConfig) {
+      babelrc = eval(modifyBabelConfig)(babelrc);
+    }
     const { babel } = readFile('afWebpack');
     return merge(babelrc, babel);
   },
   modifyBundlerConfig: (config) => {
+    if(modifyWebpackConfig) {
+      // 传入的 function 被 stringify, 需要先 eval
+      config = eval(modifyWebpackConfig)(config);
+    }
     const { resolve } = readFile('webpack');
 
     // 依赖可能会被 hoist 到这里
     config.resolve.modules.push(join(__dirname, '../node_modules'));
     config.resolveLoader.modules.push(join(__dirname, '../node_modules'));
-    // bigfish e2e test 存在依赖找不到问题
-    config.resolve.modules.push(join(__dirname, '../node_modules/docz/node_modules'));
-    config.resolveLoader.modules.push(join(__dirname, '../node_modules/docz/node_modules'));
 
     return merge({ resolve }, config);
   },
   plugins: [
+    ...plugins,
     // 名为 global 的不使用 css modules
     css({
       preprocessor: 'less',

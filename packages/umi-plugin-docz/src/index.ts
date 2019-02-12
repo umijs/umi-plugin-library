@@ -1,5 +1,5 @@
 import { fork, ChildProcess } from 'child_process';
-import { getWebpackConfig, writeFile } from './utils';
+import { getWebpackConfig, writeFile, stringifyFunction } from './utils';
 import { sync as resolveBin } from 'resolve-bin';
 import ghpages from 'gh-pages';
 import * as path from 'path';
@@ -84,6 +84,8 @@ export default function(api: IApi, opts: IOpts = {}) {
         ...opts,
         base: opts.base || `/${api.pkg.name}`,
         port: opts.port || '8001',
+        modifyWebpackConfig: stringifyFunction(opts.modifyWebpackConfig),
+        modifyBabelConfig: stringifyFunction(opts.modifyBabelConfig),
       });
 
       const subCommand = args._[0];
