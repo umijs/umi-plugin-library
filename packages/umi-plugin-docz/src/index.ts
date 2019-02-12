@@ -74,6 +74,12 @@ class Docz {
     child.on('exit', (code: number) => {
       process.exit(code);
     });
+    child.on('message', (message: any) => {
+      // 将消息传递给父进程
+      if (process.send) {
+        process.send(message);
+      }
+    });
   }
 }
 
