@@ -51,7 +51,14 @@ class Docz {
   }
 
   public devOrBuild(action: Params) {
-    const child = fork(this.doczPath, [action, '--config', this.rcPath, ...process.argv.slice(4)]);
+    let params = [action, ...process.argv.slice(4)];
+
+    // 允许使用自己的 docz 配置文件, 需要自己解决各种问题
+    if (!params.indexOf('--config')) {
+      params = params.concat(['--config', this.rcPath]);
+    }
+
+    const child = fork(this.doczPath, params);
     this.onEvent(child);
   }
 
