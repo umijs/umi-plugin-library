@@ -5,7 +5,8 @@
     "experimentalDecorators": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "lib": ["es2015"]
   },
   "exclude": ["node_modules", "dist"]
 }
