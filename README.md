@@ -42,6 +42,9 @@ $ yarn run build
 
 ## [文档](https://umijs.github.io/umi-plugin-library/)
 
+## 教程
+- [手摸手带你开发一个组件库](https://github.com/clock157/blog/issues/1)
+
 ## 问题解决
 
 ### 钉钉群
