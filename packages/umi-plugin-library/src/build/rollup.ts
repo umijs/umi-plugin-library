@@ -41,6 +41,7 @@ export default class Rollup {
   }
 
   public async build(options: IBundleOptions, pkg: IPkg, cwd: string) {
+    const { log } = this.api;
     this.getOpts(options, pkg, cwd);
     this.outpuOptions.map(async item => {
       try {
@@ -69,9 +70,9 @@ export default class Rollup {
           ]);
           watcher.on('event', event => {
             if (event.code === 'FATAL' || event.code === 'ERROR') {
-              this.api.log.error(event.error.message);
+              log.error(event.error.message);
             } else if (event.code === 'END') {
-              this.api.log.info('file changed');
+              log.info('file changed');
             }
           });
         } else {
@@ -79,7 +80,7 @@ export default class Rollup {
           const info = `${item.format}: ${item.file}`;
           item.file = join(cwd, item.file);
           await bundler.write(item);
-          this.api.log.success(`[${pkg.name}] ${info}`);
+          log.success(`[${pkg.name}] ${info}`);
         }
       } catch (error) {
         this.api.log.error(error.message);

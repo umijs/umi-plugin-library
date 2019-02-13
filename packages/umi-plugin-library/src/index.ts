@@ -9,12 +9,12 @@ export type BabelOpt = string | [string, any?];
 
 export type BundleTool = 'rollup' | 'babel';
 
-export type Log = (msg: string) => void;
 export interface IArgs {
   _: {
     length: number;
     [index: number]: Params;
   };
+  w?: boolean;
   watch?: boolean;
 }
 

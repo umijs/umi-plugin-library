@@ -63,7 +63,7 @@ class Bundler {
 export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
   const subCommand = args._[0];
   const bundler = new Bundler(api);
-  opts.watch = opts.watch !== undefined ? opts.watch : !!args.watch;
+  opts.watch = opts.watch !== undefined ? opts.watch : args.w || args.watch;
   if (subCommand === 'build') {
     const useLerna = existsSync(join(api.cwd, 'lerna.json'));
     if (useLerna && process.env.LERNA !== 'none') {
