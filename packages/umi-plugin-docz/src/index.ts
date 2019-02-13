@@ -51,6 +51,7 @@ class Docz {
   }
 
   public devOrBuild(action: Params) {
+    // 通过 slice 取命令的运行参数传给 docz. process.argv = ['node', 'umi', 'doc', 'dev', '--config', 'path/to/config']
     let params = [action, ...process.argv.slice(4)];
 
     // 允许使用自己的 docz 配置文件, 需要自己解决各种问题
