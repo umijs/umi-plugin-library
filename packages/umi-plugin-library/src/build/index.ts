@@ -3,7 +3,8 @@ import Rollup from './rollup';
 import Babel from './babel';
 import { readdirSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { IApi, IBundleOptions, IArgs } from '..';
+import { IApi } from 'umi-plugin-types';
+import { IBundleOptions, IArgs } from '..';
 import { useTypescript } from '../utils';
 
 class Bundler {
