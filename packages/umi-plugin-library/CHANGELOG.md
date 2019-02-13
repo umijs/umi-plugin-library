@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.3...umi-plugin-library@1.1.4) (2019-02-13)
+
+
+### Bug Fixes
+
+* Cannot read property 'inherits' of undefined ([#80](https://github.com/umijs/umi-plugin-library/issues/80)) ([2b385d7](https://github.com/umijs/umi-plugin-library/commit/2b385d7))
+
+
+
+
+
 ## [1.1.3](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.2...umi-plugin-library@1.1.3) (2019-02-13)
 
 **Note:** Version bump only for package umi-plugin-library
