@@ -51,7 +51,15 @@ class Docz {
   }
 
   public devOrBuild(action: Params) {
-    const child = fork(this.doczPath, [action, '--config', this.rcPath, ...process.argv.slice(4)]);
+    // 通过 slice 取命令的运行参数传给 docz. process.argv = ['node', 'umi', 'doc', 'dev', '--config', 'path/to/config']
+    let params = [action, ...process.argv.slice(4)];
+
+    // 允许使用自己的 docz 配置文件, 需要自己解决各种问题
+    if (!params.indexOf('--config')) {
+      params = params.concat(['--config', this.rcPath]);
+    }
+
+    const child = fork(this.doczPath, params);
     this.onEvent(child);
   }
 
@@ -66,6 +74,12 @@ class Docz {
   private onEvent(child: ChildProcess) {
     child.on('exit', (code: number) => {
       process.exit(code);
+    });
+    child.on('message', (message: any) => {
+      // 将消息传递给父进程
+      if (process.send) {
+        process.send(message);
+      }
     });
   }
 }
