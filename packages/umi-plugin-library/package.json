@@ -1,6 +1,6 @@
 {
   "name": "umi-plugin-library",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -49,6 +49,6 @@
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-terser": "^4.0.0",
     "rollup-plugin-typescript2": "^0.18.1",
-    "umi-plugin-docz": "^1.1.1"
+    "umi-plugin-docz": "^1.1.2"
   }
 }
