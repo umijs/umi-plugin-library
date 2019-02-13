@@ -4,7 +4,6 @@ export default {
   plugins: [
     [
       'umi-plugin-library', {
-        /** this repo no need umd package*/
         umd: false,
         doc: {
           title: "Umi 组件开发工具",
