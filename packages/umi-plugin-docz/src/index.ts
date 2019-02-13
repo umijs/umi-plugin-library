@@ -55,7 +55,7 @@ class Docz {
     let params = [action, ...process.argv.slice(4)];
 
     // 允许使用自己的 docz 配置文件, 需要自己解决各种问题
-    if (!params.indexOf('--config')) {
+    if (params.indexOf('--config') === -1) {
       params = params.concat(['--config', this.rcPath]);
     }
 
