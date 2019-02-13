@@ -8,7 +8,7 @@
     "doc:dev": "umi doc dev",
     "doc:deploy": "umi doc build && umi doc deploy",
     "build": "umi lib build",
-    "publish": "npm run build && lerna publish"
+    "pub": "npm run build && lerna publish"
   },
   "lint-staged": {
     "*.ts": [
