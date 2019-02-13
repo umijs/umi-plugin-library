@@ -64,6 +64,18 @@ export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
   const subCommand = args._[0];
   const bundler = new Bundler(api);
   opts.watch = opts.watch !== undefined ? opts.watch : !!args.watch;
+
+  // Support extend lib's sub command in other plugins
+  const subCommandHandler = api.applyPlugins('modifyLibrarySubCommandHandler', {
+    initialValue: {},
+  });
+  const handler = subCommandHandler[subCommand];
+  if (handler) {
+    return handler({
+      args,
+    });
+  }
+
   if (subCommand === 'build') {
     const useLerna = existsSync(join(api.cwd, 'lerna.json'));
     if (useLerna && process.env.LERNA !== 'none') {

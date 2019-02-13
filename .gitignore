@@ -1,9 +1,10 @@
 /node_modules
 /packages/*/node_modules
+/examples/*/node_modules
 /yarn.lock
 /packages/*/yarn.lock
 /.changelog
-.rpt2_cache
+/.rpt2_cache
 .docz
 dist
 .umi
