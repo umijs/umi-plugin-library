@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.6](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.5...umi-plugin-library@1.1.6) (2019-02-13)
+
+
+### Features
+
+* support alias -w for --watch ([#85](https://github.com/umijs/umi-plugin-library/issues/85)) ([395c59c](https://github.com/umijs/umi-plugin-library/commit/395c59c))
+* support extend sub command of umi lib via extra plugins ([#84](https://github.com/umijs/umi-plugin-library/issues/84)) ([008a4e1](https://github.com/umijs/umi-plugin-library/commit/008a4e1))
+* use umi-plugin-types ([#83](https://github.com/umijs/umi-plugin-library/issues/83)) ([7053b6b](https://github.com/umijs/umi-plugin-library/commit/7053b6b))
+
+
+
+
+
 ## [1.1.5](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.4...umi-plugin-library@1.1.5) (2019-02-13)
 
 **Note:** Version bump only for package umi-plugin-library
