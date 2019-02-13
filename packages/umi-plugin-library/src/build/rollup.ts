@@ -13,7 +13,8 @@ import { terser } from 'rollup-plugin-terser';
 import autoprefixer from 'autoprefixer';
 import camelCase from 'camelcase';
 import copyPlugin from 'rollup-plugin-cpy';
-import { IApi, IBundleOptions, IPkg, IUmd } from '..';
+import { IBundleOptions, IPkg, IUmd } from '..';
+import { IApi } from 'umi-plugin-types';
 import { join, basename } from 'path';
 
 const EXTENSIONS = ['.js', '.jsx', '.ts', '.tsx', '.es6', '.es', '.mjs'];
@@ -115,7 +116,7 @@ export default class Rollup {
         if (warning.code === 'THIS_IS_UNDEFINED') {
           return;
         }
-        debug(warning);
+        debug(warning.toString());
         if (warning.code === 'UNRESOLVED_IMPORT') {
           this.api.log.warn(warning.message);
         }

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { join, resolve } from 'path';
-import { IApi } from '..';
+import { IApi } from 'umi-plugin-types';
 
 type filename = 'afWebpack' | 'webpack' | 'docOpts';
 export interface IAfWebpackConfig {

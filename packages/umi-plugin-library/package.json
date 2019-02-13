@@ -49,6 +49,7 @@
     "rollup-plugin-postcss": "^1.6.3",
     "rollup-plugin-terser": "^4.0.0",
     "rollup-plugin-typescript2": "^0.18.1",
-    "umi-plugin-docz": "^1.1.2"
+    "umi-plugin-docz": "^1.1.2",
+    "umi-plugin-types": "^0.3.2"
   }
 }

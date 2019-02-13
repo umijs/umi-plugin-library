@@ -30,6 +30,7 @@
     "docz-theme-default": "0.13.7",
     "gh-pages": "^2.0.1",
     "resolve-bin": "^0.4.0",
+    "umi-plugin-types": "^0.3.2",
     "webpack-merge": "^4.1.5"
   },
   "devDependencies": {

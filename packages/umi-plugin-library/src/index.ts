@@ -1,4 +1,5 @@
 import doczPlugin, { IOpts as IDocOpts } from 'umi-plugin-docz';
+import { IApi } from 'umi-plugin-types';
 import Build from './build';
 import { useTypescript } from './utils';
 
@@ -23,25 +24,6 @@ export interface IPkg {
   module?: string;
   unpkg?: string;
   dependencies: IStringObject;
-}
-
-export interface IApi {
-  applyPlugins: (name: string, options: object) => object;
-  cwd: string;
-  registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
-  webpackConfig: {
-    resolve: {
-      alias: IStringObject;
-    };
-  };
-  debug: (msg: any) => void;
-  pkg: IPkg;
-  log: {
-    warn: Log;
-    success: Log;
-    error: Log;
-    info: Log;
-  };
 }
 
 export interface IOpts extends IBundleOptions {
@@ -104,7 +86,7 @@ export default function(api: IApi, opts: IOpts = {}) {
   // use typescript?
   opts.typescript = opts.typescript !== undefined ? opts.typescript : useTypescript(api.cwd);
   // register docz plugin
-  doczPlugin(api, {
+  doczPlugin(api as any, {
     ...opts.doc,
     cssModules: opts.cssModules,
     typescript: opts.typescript,

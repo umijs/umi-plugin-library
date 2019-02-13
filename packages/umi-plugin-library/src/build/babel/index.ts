@@ -1,8 +1,9 @@
 import { sync as resolveBin } from 'resolve-bin';
 import { fork } from 'child_process';
 import { join, dirname } from 'path';
+import { IApi } from 'umi-plugin-types';
 import Copyfile from './copyfile';
-import { IApi, IBundleOptions } from '../..';
+import { IBundleOptions } from '../..';
 type buildType = 'cjs' | 'esm';
 
 export default class Babel {

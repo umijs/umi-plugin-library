@@ -2,6 +2,7 @@ import { fork, ChildProcess } from 'child_process';
 import { getWebpackConfig, writeFile } from './utils';
 import { sync as resolveBin } from 'resolve-bin';
 import ghpages from 'gh-pages';
+import { IApi } from 'umi-plugin-types';
 import * as path from 'path';
 
 export interface IOpts {
@@ -21,21 +22,6 @@ export interface IPkg {
 }
 
 export type Log = (msg: string) => void;
-
-export interface IApi {
-  applyPlugins: (name: string, options: object) => object;
-  cwd: string;
-  pkg: IPkg;
-  registerCommand: (name: string, options: object, callback: (args: IArgs) => void) => void;
-  webpackConfig: object;
-  debug: (msg: any) => void;
-  log: {
-    warn: Log;
-    success: Log;
-    error: Log;
-    info: Log;
-  };
-}
 
 class Docz {
   private doczPath: string;
