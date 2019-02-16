@@ -79,14 +79,15 @@ export default function(api: IApi, opts: IOpts = {}) {
     },
     (args: IArgs) => {
       getWebpackConfig(api);
+      const subCommand = args._[0];
       // write doc options to file for further use
       writeFile('docOpts', {
         ...opts,
         base: opts.base || `/${api.pkg.name}`,
         port: opts.port || '8001',
+        subCommand,
       });
 
-      const subCommand = args._[0];
       const docz = new Docz(api);
       if (subCommand === 'dev' || subCommand === 'build') {
         docz.devOrBuild(subCommand);
