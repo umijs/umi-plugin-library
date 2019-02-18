@@ -1,7 +1,9 @@
 // config file not ues ts
 const { join } = require('path');
 const babelMerge = require('babel-merge');
-const umiBabelConfig = require('babel-preset-umi').default();
+
+// 需要传入一个空对象，相关代码 https://github.com/umijs/umi/blob/master/packages/babel-preset-umi/src/index.js#L15
+const umiBabelConfig = require('babel-preset-umi').default(undefined, {transformRuntime: {}});
 
 /**
  * 获取 css 插件
