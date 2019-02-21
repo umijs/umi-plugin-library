@@ -43,7 +43,7 @@ export default class Rollup {
   public async build(options: IBundleOptions, pkg: IPkg, cwd: string) {
     const { log } = this.api;
     this.getOpts(options, pkg, cwd);
-    this.outpuOptions.map(async item => {
+    for (const item of this.outpuOptions) {
       try {
         let inputOptions;
         if (item.format !== 'umd') {
@@ -86,7 +86,7 @@ export default class Rollup {
         this.api.log.error(error.message);
         this.api.debug(error);
       }
-    });
+    }
   }
 
   private getOpts(options: IBundleOptions, pkg: IPkg, cwd: string) {
