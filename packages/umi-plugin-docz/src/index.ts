@@ -77,14 +77,8 @@ export default function(api: IApi, opts: IOpts = {}) {
     },
     (args: IArgs) => {
       getWebpackConfig(api);
-      // write doc options to file for further use
-      writeFile('docOpts', {
-        ...opts,
-        base: opts.base || `/${api.pkg.name}`,
-        port: opts.port || '8001',
-      });
-
       const subCommand = args._[0];
+
       // Support extend doc's sub command in other plugins
       const subCommandHandler = api.applyPlugins('modifyDocSubCommandHandler', {
         initialValue: {},
@@ -95,6 +89,14 @@ export default function(api: IApi, opts: IOpts = {}) {
           args,
         });
       }
+
+      // write doc options to file for further use
+      writeFile('docOpts', {
+        ...opts,
+        base: opts.base || `/${api.pkg.name}`,
+        port: opts.port || '8001',
+        subCommand,
+      });
 
       const docz = new Docz(api);
       if (subCommand === 'dev' || subCommand === 'build') {

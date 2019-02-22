@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.6...umi-plugin-library@1.1.7) (2019-02-18)
+
+
+### Bug Fixes
+
+* babel complied bundle has absoulute path ([#87](https://github.com/umijs/umi-plugin-library/issues/87)) ([ac086b8](https://github.com/umijs/umi-plugin-library/commit/ac086b8))
+
+
+
+
+
 ## [1.1.6](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.5...umi-plugin-library@1.1.6) (2019-02-13)
 
 

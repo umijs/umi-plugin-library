@@ -13,8 +13,15 @@ function readFile(name) {
   return JSON.parse(config);
 }
 
+function findAndRemove(arr, str) {
+  const found = arr.find(item => item.indexOf(str) !== -1);
+  if(found) {
+    arr.splice(arr.indexOf(found), 1);
+  }
+}
+
 const customOpions = readFile('docOpts');
-const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, cssModules, ...rest } = customOpions;
+const { themeConfig: customThemeConfig = {}, style = [], script = [], favicon, cssModules, subCommand, ...rest } = customOpions;
 
 // external js and css
 const htmlContext = {
@@ -50,6 +57,19 @@ export default {
     // 依赖可能会被 hoist 到这里
     config.resolve.modules.push(join(__dirname, '../node_modules'));
     config.resolveLoader.modules.push(join(__dirname, '../node_modules'));
+
+    // build 不需要 webpackHotDevClient
+    if(subCommand === 'build' && config.entry.app) {
+      findAndRemove(config.entry.app, 'webpackHotDevClient.js');
+    }
+
+    // do not generate doc sourcemap
+    config.devtool = false;
+
+    // can disable minimize
+    if(process.env.COMPRESS === 'none') {
+      config.optimization.minimize = false;
+    }
 
     return merge({ resolve }, config);
   },

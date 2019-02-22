@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.3...umi-plugin-docz@1.1.4) (2019-02-18)
+
+
+### Bug Fixes
+
+* **docz:** build a bundle no need to use webpackHotDevClient.js ([#86](https://github.com/umijs/umi-plugin-library/issues/86)) ([5cde7c5](https://github.com/umijs/umi-plugin-library/commit/5cde7c5))
+
+
+
+
+
 ## [1.1.3](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.2...umi-plugin-docz@1.1.3) (2019-02-13)
 
 
