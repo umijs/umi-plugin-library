@@ -85,6 +85,17 @@ export default function(api: IApi, opts: IOpts = {}) {
       });
 
       const subCommand = args._[0];
+      // Support extend doc's sub command in other plugins
+      const subCommandHandler = api.applyPlugins('modifyDocSubCommandHandler', {
+        initialValue: {},
+      });
+      const handler = subCommandHandler[subCommand];
+      if (handler) {
+        return handler({
+          args,
+        });
+      }
+
       const docz = new Docz(api);
       if (subCommand === 'dev' || subCommand === 'build') {
         // 返回 Promise，这样 command 直接能够串起来
