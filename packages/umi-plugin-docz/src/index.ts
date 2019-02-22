@@ -47,6 +47,7 @@ class Docz {
 
     const child = fork(this.doczPath, params);
     this.onEvent(child);
+    return child;
   }
 
   public deploy() {
@@ -58,9 +59,6 @@ class Docz {
   }
 
   private onEvent(child: ChildProcess) {
-    child.on('exit', (code: number) => {
-      process.exit(code);
-    });
     child.on('message', (message: any) => {
       // 将消息传递给父进程
       if (process.send) {
@@ -80,6 +78,18 @@ export default function(api: IApi, opts: IOpts = {}) {
     (args: IArgs) => {
       getWebpackConfig(api);
       const subCommand = args._[0];
+
+      // Support extend doc's sub command in other plugins
+      const subCommandHandler = api.applyPlugins('modifyDocSubCommandHandler', {
+        initialValue: {},
+      });
+      const handler = subCommandHandler[subCommand];
+      if (handler) {
+        return handler({
+          args,
+        });
+      }
+
       // write doc options to file for further use
       writeFile('docOpts', {
         ...opts,
@@ -90,7 +100,17 @@ export default function(api: IApi, opts: IOpts = {}) {
 
       const docz = new Docz(api);
       if (subCommand === 'dev' || subCommand === 'build') {
-        docz.devOrBuild(subCommand);
+        // 返回 Promise，这样 command 直接能够串起来
+        return new Promise((resolve, reject) => {
+          const child = docz.devOrBuild(subCommand);
+          child.on('exit', (code: number) => {
+            if (code === 1) {
+              reject(new Error('Doc build failed'));
+            } else {
+              resolve();
+            }
+          });
+        });
       } else if (subCommand === 'deploy') {
         docz.deploy();
       }

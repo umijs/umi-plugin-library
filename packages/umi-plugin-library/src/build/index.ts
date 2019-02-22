@@ -23,8 +23,8 @@ class Bundler {
   public async build(opts: IBundleOptions) {
     const { cwd, pkg } = this.api;
     this.clean(cwd);
-    this.bundlerRollup.build(opts, pkg, cwd);
-    this.bundlerBabel.build(opts);
+    await this.bundlerRollup.build(opts, pkg, cwd);
+    await this.bundlerBabel.build(opts);
   }
 
   public async buildForLerna(opts: IBundleOptions) {
@@ -60,7 +60,7 @@ class Bundler {
   }
 }
 
-export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
+export default async (api: IApi, opts: IBundleOptions, args: IArgs) => {
   const subCommand = args._[0];
   const bundler = new Bundler(api);
   opts.watch = opts.watch !== undefined ? opts.watch : args.w || args.watch;
@@ -79,9 +79,9 @@ export default (api: IApi, opts: IBundleOptions, args: IArgs) => {
   if (subCommand === 'build') {
     const useLerna = existsSync(join(api.cwd, 'lerna.json'));
     if (useLerna && process.env.LERNA !== 'none') {
-      bundler.buildForLerna(opts);
+      await bundler.buildForLerna(opts);
     } else {
-      bundler.build(opts);
+      await bundler.build(opts);
     }
   }
 };

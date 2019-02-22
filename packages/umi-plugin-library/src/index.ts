@@ -99,7 +99,7 @@ export default function(api: IApi, opts: IOpts = {}) {
     },
     args => {
       // build
-      Build(api, opts, args);
+      return Build(api, opts, args);
     }
   );
 }
