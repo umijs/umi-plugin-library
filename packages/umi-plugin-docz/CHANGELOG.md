@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.4...umi-plugin-docz@1.1.5) (2019-02-22)
+
+
+### Features
+
+* disable doc sourcemap and can disable minimize ([#89](https://github.com/umijs/umi-plugin-library/issues/89)) ([bacd802](https://github.com/umijs/umi-plugin-library/commit/bacd802))
+
+
+
+
+
 ## [1.1.4](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.3...umi-plugin-docz@1.1.4) (2019-02-18)
 
 
