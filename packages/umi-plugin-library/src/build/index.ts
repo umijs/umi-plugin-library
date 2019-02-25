@@ -28,7 +28,9 @@ class Bundler {
   }
 
   public async buildForLerna(opts: IBundleOptions) {
-    readdirSync(join(this.api.cwd, 'packages')).forEach(folder => {
+    const folders = readdirSync(join(this.api.cwd, 'packages'));
+
+    for (const folder of folders) {
       const cwd = join(this.api.cwd, 'packages', folder);
       const pkgPath = join(cwd, 'package.json');
       if (existsSync(pkgPath)) {
@@ -43,11 +45,12 @@ class Bundler {
         // avoid treat as ts package that use root tsconfig.json
         combinedRc.typescript = rc.typescript !== undefined ? rc.typescript : useTypescript(cwd);
 
-        this.bundlerRollup.build(combinedRc, JSON.parse(pkg), cwd);
+        await this.bundlerRollup.build(combinedRc, JSON.parse(pkg), cwd);
       } else {
         this.api.log.warn(`package.json not found in packages/${folder}`);
       }
-    });
+    }
+
     if ((opts.esm && opts.esm.type === 'babel') || (opts.cjs && opts.cjs.type === 'babel')) {
       this.api.log.error(`not support use babel with lerna yet`);
     }
