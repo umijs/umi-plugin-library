@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.9](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.8...umi-plugin-library@1.1.9) (2019-02-25)
+
+
+### Bug Fixes
+
+* aync flow ([#90](https://github.com/umijs/umi-plugin-library/issues/90)) ([251dc4d](https://github.com/umijs/umi-plugin-library/commit/251dc4d))
+
+
+
+
+
 ## [1.1.8](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-library@1.1.7...umi-plugin-library@1.1.8) (2019-02-22)
 
 **Note:** Version bump only for package umi-plugin-library
