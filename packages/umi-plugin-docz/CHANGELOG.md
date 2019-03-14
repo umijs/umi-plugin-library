@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.5...umi-plugin-docz@1.2.0) (2019-03-14)
+
+
+### Features
+
+* doc can use sourcemap ([d7a676a](https://github.com/umijs/umi-plugin-library/commit/d7a676a))
+
+
+
+
+
 ## [1.1.5](https://github.com/umijs/umi-plugin-library/compare/umi-plugin-docz@1.1.4...umi-plugin-docz@1.1.5) (2019-02-22)
 
 
