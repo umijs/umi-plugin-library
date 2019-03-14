@@ -63,9 +63,6 @@ export default {
       findAndRemove(config.entry.app, 'webpackHotDevClient.js');
     }
 
-    // do not generate doc sourcemap
-    config.devtool = false;
-
     // can disable minimize
     if(process.env.COMPRESS === 'none') {
       config.optimization.minimize = false;
