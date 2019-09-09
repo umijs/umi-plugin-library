@@ -1,6 +1,6 @@
 # ~~umi-plugin-library~~
 
-**过期：umi-plugin-library 已升级为 [umi-library](https://github.com/umijs/umi/tree/master/packages/umi-library) 更加优雅更加小巧，欢迎使用。** 
+**过期：umi-plugin-library 已升级为 [father](https://github.com/umijs/father) 更加优雅更加小巧，欢迎使用。** 
 
 基于 umi 的组件库开发工具。
 
